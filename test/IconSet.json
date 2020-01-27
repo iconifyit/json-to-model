@@ -5,7 +5,6 @@
   "date"         : "2020-01-22 20:48:51",
   "licence"      : "",
   "sort"         : 2,
-  "enabled"      : true,
   "children"     : [],
   "__primaryKey" : "identifier",
   "__parent"     : "parent",

@@ -21,7 +21,7 @@ if (args.length === 0) {
 
 const jsonToJsModel = require('./index');
 
-const intput = args[0],
+const input  = args[0],
       output = args[1];
 
 console.log(
