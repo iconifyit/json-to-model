@@ -97,3 +97,14 @@ const jsonToJsModel = require('../index');
 console.log(new jsonToJsModel('Icon.json', './output').getOutput());
 console.log(new jsonToJsModel('IconSet.json', './output').getOutput());
 ```
+
+## Why is this not written in modern JavaScript?
+
+That is a legitimate question and I wish I _could_ write it all in ES6, but I primarily built this tool for my own needs 
+building Adobe CEP (Common Extensibility Platform) extensions for Adobe Illustrator. Since CEP is an older technology, 
+it does not _always_ support ES6. Each Adobe product has a different extension API. Some use UXP (XD, for example) and 
+others (most) use their own implementation of CEP which is based on CEF (Chromium Extension Framework). 
+
+So in order to be able to use the tool for my work building Illustrator and Photoshop extensions, I had to generate 
+ES5 classes instead of ES6. This is, however, _alpha_ code and the plan is to update the package itself to use only 
+ES6 and to generate both ES6 and ES5 output.
