@@ -73,7 +73,7 @@ the single item and should point to the __primaryKey of the collection.
 Specifies the field on the collection which will contain the array of single items. This is the name of the field, not the value of the field. 
 __children should be set on the collection definition, not the item unless items can also be collections such as in a multi-level hierarchy.
 
-### __type
+#### __type
 
 The type can be either `item` or `collection` and tells json-to-js-model which JavaScript class template to use.
 
