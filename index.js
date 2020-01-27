@@ -26,6 +26,3 @@ const collectionModel = new JsonToModel(
 
 fs.writeFileSync(path.join('test', itemClass + '.js'), itemModel, kUTF8);
 fs.writeFileSync(path.join('test', collectionClass + '.js'), collectionModel, kUTF8);
-
-// console.log('itemModel', itemModel);
-// console.log('collectionModel', collectionModel)

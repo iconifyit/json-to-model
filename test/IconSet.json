@@ -9,5 +9,7 @@
   "children"     : [],
   "__primaryKey" : "identifier",
   "__parent"     : "parent",
-  "__children"   : "children"
+  "__children"   : "children",
+  "__type"       : "collection",
+  "__className"  : "IconSet"
 }

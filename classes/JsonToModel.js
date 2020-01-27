@@ -26,12 +26,16 @@ function ucWords(str) {
 
 const kPRIMARY_KEY  = '__primaryKey',
       kCHILDREN_KEY = '__children',
-      kPARENT_KEY   = '__parent';
+      kPARENT_KEY   = '__parent',
+      kMODEL_TYPE   = '__type',
+      kCLASS_NAME   = '__className';
 
 const privateKeys = [
     kPRIMARY_KEY,
     kPARENT_KEY,
-    kCHILDREN_KEY
+    kCHILDREN_KEY,
+    kMODEL_TYPE,
+    kCLASS_NAME
 ];
 
 class JsonToModel {

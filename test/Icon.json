@@ -11,5 +11,7 @@
   "type"         : 0,
   "unicode"      : "",
   "__primaryKey" : "identifier",
-  "__parent"     : "parent"
+  "__parent"     : "parent",
+  "__type"       : "item",
+  "__className"  : "Icon"
 }
