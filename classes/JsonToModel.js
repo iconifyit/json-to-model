@@ -75,7 +75,7 @@ class JsonToModel {
             return `${open}${options.fn(this)}${close}`;
         });
 
-        const template = handlebars.compile(fs.readFileSync('../templates/' + tpl, kUTF8));
+        const template = handlebars.compile(fs.readFileSync(tpl, kUTF8));
 
         const view = {
             ClassName   : className,

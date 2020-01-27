@@ -84,7 +84,7 @@ class JsonToJsModel {
         const model = new JsonToModel(
             meta.__className,
             meta,
-            meta.__type === kTYPE_ITEM ? 'item.handlebars' : 'collection.handlebars'
+            path.join('./templates/', meta.__type === kTYPE_ITEM ? 'item.handlebars' : 'collection.handlebars')
         ).toString();
 
         /*
