@@ -11,9 +11,10 @@ const [,, ...args] = process.argv
 if (args.length === 0) {
     console.log(
         "\nUsage : \n" +
-        "    @param Path to JSON definition file \n" +
+        "    @param {string} input   Path to JSON definition file \n" +
+        "    @param {string} output  The path to the output folder (do not include file name)" +
         "\n" +
-        "See `link` for full documentation.\n"
+        "(Coming soon) See `link` for full documentation.\n"
     );
     return;
 }
