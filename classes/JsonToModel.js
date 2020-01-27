@@ -55,14 +55,12 @@ class JsonToModel {
 
 
         handlebars.registerHelper('ucWords', function(str) {
-            console.log('str', str);
             return str.replace(/\b[a-z]/g, function(letter) {
                 return letter.toUpperCase();
             });
         });
 
         handlebars.registerHelper('eq', function(a, b) {
-            console.log('eg', a, b);
             return a === b;
         });
 
@@ -77,7 +75,7 @@ class JsonToModel {
             return `${open}${options.fn(this)}${close}`;
         });
 
-        const template = handlebars.compile(fs.readFileSync('./templates/' + tpl, kUTF8));
+        const template = handlebars.compile(fs.readFileSync('../templates/' + tpl, kUTF8));
 
         const view = {
             ClassName   : className,

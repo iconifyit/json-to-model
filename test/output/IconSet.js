@@ -80,30 +80,6 @@ const IconSet = function(data) {
     this.children = get(data, 'children', null);
 }
 
-// /**
-//  * Gets the value of primaryKey
-// * @returns {string}
-// */
-// IconSet.prototype.getPrimaryKey = function() {
-//     return this.primaryKey;
-// }
-
-// /**
-//  * Gets the value of primaryKey
-//  * @returns {string}
-//  */
-// IconSet.prototype.getParentKey = function() {
-//     return this.parentKey;
-// }
-
-// /**
-// * Gets the value of primaryKey
-// * @returns {string}
-// */
-// IconSet.prototype.getChildrenKey = function() {
-//     return this.childrenKey;
-// }
-
 
 /**
  * Gets the value of identifier
@@ -253,7 +229,7 @@ IconSet.prototype.setChildren = function(value) {
 /**
  * Gets the first item in the collection.
  * @param {integer}     i   The position of the item to return.
- * @returns {Icon}
+ * @returns {}
  */
 IconSet.prototype.first = function() {
     if (this.length() > 0) {
@@ -264,7 +240,7 @@ IconSet.prototype.first = function() {
 /**
  * Gets the last item in the collection.
  * @param {integer}     i   The position of the item to return.
- * @returns {Icon}
+ * @returns {}
  */
 IconSet.prototype.last = function() {
     if (this.length() > 0) {
@@ -275,7 +251,7 @@ IconSet.prototype.last = function() {
 /**
  * Gets a single item by index.
  * @param {integer}     i   The position of the item to return.
- * @returns {Icon}
+ * @returns {}
  */
 IconSet.prototype.get = function(i) {
     return this.children[i];
@@ -285,7 +261,7 @@ IconSet.prototype.get = function(i) {
  * Gets a single item by property value.
  * @param   {string}    The property name by which to search.
  * @param   {*}         The value to match.
- * @returns {Icon}
+ * @returns {}
  */
 IconSet.prototype.item = function(key, value) {
     for (let i = 0; i < this.length(); i++) {
@@ -307,12 +283,12 @@ IconSet.prototype.remove = function(i) {
 
 /**
  * Adds a single item.
- * @param {Icon} The item to add.
- * @returns {Icon}
+ * @param {} The item to add.
+ * @returns {}
  */
 IconSet.prototype.add = function(item) {
     if (this.item('identifier', item.identifier)) {
-        throw new Error('A(n) Icon with identifier of ' + item.identifier + ' already exists');
+        throw new Error('A(n)  with identifier of ' + item.identifier + ' already exists');
     }
     item.parent = this.identifier;
     this.children.push(item);
@@ -322,7 +298,7 @@ IconSet.prototype.add = function(item) {
 /**
  * Inserts an item at the specified index.
  * @param {integer}     i   The position at which to insert the item.
- * @param {Icon}
+ * @param {}
  * @returns {string}
  */
 IconSet.prototype.insert = function(i, item) {
@@ -332,7 +308,7 @@ IconSet.prototype.insert = function(i, item) {
 
 /**
  * Returns all children in the collection.
- * @returns {Icon[]}
+ * @returns {[]}
  */
 IconSet.prototype.getAll = function() {
     return this.children;
@@ -341,7 +317,7 @@ IconSet.prototype.getAll = function() {
 /**
  * Sorts the children by key.
  * @param {string}  key     The property name by which to sort.
- * @returns {Icon[]}
+ * @returns {[]}
  */
 IconSet.prototype.sort = function(key) {
     this.children.sort(function (a, b) {
