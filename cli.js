@@ -20,5 +20,9 @@ if (args.length === 0) {
 
 const jsonToJsModel = require('./index');
 
-console.log(new jsonToJsModel(args[0], args[1]).getOutput());
-// console.log(new jsonToJsModel('IconSet.json', './output').getOutput());
+const intput = args[0],
+      output = args[1];
+
+console.log(
+    new jsonToJsModel(input, output).getOutput()
+);
