@@ -1,0 +1,253 @@
+/*
+ * Copyright (c) 2020.-present Atomic Lotus, LLC - Scott Lewis <scott@atomiclotus.net>
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+(function(global, module, exports) {
+
+    'use strict';
+
+    var {{ClassName}} = function(data) {
+        this.{{ClassName}} = '{{ClassName}}@' + this._generateUUID();
+
+        if (! data) data = {};
+
+        /**
+         * {string}
+         */
+         this.primaryKey = '{{primaryKey}}';
+
+        /**
+         * {string}
+         */
+        this.parentKey = '{{parentKey}}';
+
+        /**
+         * {string}
+         */
+        this.childrenKey = '{{childrenKey}}';
+
+    {{#each properties}}
+        /**
+         * {{#bracket}}{{type}}{{/bracket}}
+         */
+        this.{{name}} = this._get(data, '{{name}}',{{#if primary}} this._generateUUID(){{else}} null{{/if}});
+    {{/each}}
+    }
+
+    // Getters
+    {{#each getters}}
+
+    /**
+     * Gets the value of {{name}}
+     * @returns {{#bracket}}{{type}}{{/bracket}}
+     */
+    {{ClassName}}.prototype.{{getter}} = function() {
+        return this.{{name}};
+    }
+    {{/each}}
+
+    // Setters
+    {{#each setters}}
+
+    /**
+     * Sets the value of {{name}}
+     * @param {{#bracket}}{{type}}{{/bracket}} value  The value to set {{name}} to.
+     * @returns {{#bracket}}{{type}}{{/bracket}}
+     */
+    {{ClassName}}.prototype.{{setter}} = function(value) {
+        this.{{name}} = value;
+        return this.{{name}};
+    }
+    {{/each}}
+
+    // CRUD functions
+
+    /**
+     * Gets the first item in the collection.
+     * @param {integer}     i   The position of the item to return.
+     * @returns {{#bracket}}{{ItemName}}{{/bracket}}
+     */
+    {{ClassName}}.prototype.first = function() {
+        if (this.length() > 0) {
+            return this.{{childrenKey}}[0];
+        }
+    }
+
+    /**
+     * Gets the last item in the collection.
+     * @param {integer}     i   The position of the item to return.
+     * @returns {{#bracket}}{{ItemName}}{{/bracket}}
+     */
+    {{ClassName}}.prototype.last = function() {
+        if (this.length() > 0) {
+            return this.{{childrenKey}}[this.length() -1];
+        }
+    }
+
+    /**
+     * Gets a single item by index.
+     * @param {integer}     i   The position of the item to return.
+     * @returns {{#bracket}}{{ItemName}}{{/bracket}}
+     */
+    {{ClassName}}.prototype.get = function(i) {
+        return this.{{childrenKey}}[i];
+    }
+
+    /**
+     * Gets a single item by property value.
+     * @param   {string}    The property name by which to search.
+     * @param   {*}         The value to match.
+     * @returns {{#bracket}}{{ItemName}}{{/bracket}}
+     */
+    {{ClassName}}.prototype.item = function(key, value) {
+        for (let i = 0; i < this.length(); i++) {
+            if (this.{{childrenKey}}[i][key] === value) {
+                return this.{{childrenKey}}[i];
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Remove item at `i` index.
+     * @param {integer}
+     * @returns {string}
+     */
+    {{ClassName}}.prototype.remove = function(i) {
+        this.{{childrenKey}} = this.{{childrenKey}}.splice(i, 1);
+    }
+
+    /**
+     * Adds a single item.
+     * @param {{#bracket}}{{ItemName}}{{/bracket}} The item to add.
+     * @returns {{#bracket}}{{ItemName}}{{/bracket}}
+     */
+    {{ClassName}}.prototype.add = function(item) {
+        if (this.item('{{primaryKey}}', item.{{primaryKey}})) {
+            throw new Error('A(n) {{ItemName}} with {{primaryKey}} of ' + item.{{primaryKey}} + ' already exists');
+        }
+        item.{{parentKey}} = this.{{primaryKey}};
+        this.{{childrenKey}}.push(item);
+        return this.last();
+    }
+
+    /**
+     * Inserts an item at the specified index.
+     * @param {integer}     i   The position at which to insert the item.
+     * @param {{#bracket}}{{ItemName}}{{/bracket}}
+     * @returns {string}
+     */
+    {{ClassName}}.prototype.insert = function(i, item) {
+        item.{{parentKey}}   = this.{{primaryKey}};
+        this.{{childrenKey}} = this.{{childrenKey}}.splice(i, 0, item);
+    }
+
+    /**
+     * Returns all {{childrenKey}} in the collection.
+     * @returns {{#bracket}}{{ItemName}}[]{{/bracket}}
+     */
+    {{ClassName}}.prototype.getAll = function() {
+        return this.{{childrenKey}};
+    }
+
+    // Utility functions
+
+    /**
+     * Gets the value of an object property by name.
+     * @param {object}  subject     The object to search.
+     * @param {string}  key         The name of the property to get.
+     * @param {*}       fallback    The default value to return if key is not found.
+     */
+    {{ClassName}}.prototype._get = function(subject, key, fallback) {
+        if (typeof subject[key] !== 'undefined') {
+            return subject[key];
+        }
+        return fallback;
+    }
+
+    /**
+     * Creates a unique identifier in UUID format.
+     */
+    {{ClassName}}.prototype._generateUUID = function() {
+        var d = new Date().getTime();
+        if (typeof performance !== 'undefined' && typeof performance.now === 'function'){
+            d += performance.now(); //use high-precision timer if available
+        }
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+            var r = (d + Math.random() * 16) % 16 | 0;
+            d = Math.floor(d / 16);
+            return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+        });
+    }
+
+    /**
+     * Sorts the {{childrenKey}} by key.
+     * @param {string}  key     The property name by which to sort.
+     * @returns {{#bracket}}{{ItemName}}[]{{/bracket}}
+     */
+    {{ClassName}}.prototype.sort = function(key) {
+        this.{{childrenKey}}.sort(function (a, b) {
+            if (a[key] < b[key]) {
+                return -1;
+            }
+            if (a[property] > b[property]) {
+                return 1;
+            }
+            return 0;
+        });
+        return this.{{childrenKey}};
+    }
+
+    /**
+     * Get value of {name}
+     * @returns {integer}
+     */
+    {{ClassName}}.prototype.length = function() {
+        return this.{{childrenKey}}.length;
+    }
+
+    /**
+     * Get the {{#bracket}}{{ClassName}}{{/bracket}} as a key => value pairs object.
+     * @returns {{#bracket}}{{ClassName}}[]{{/bracket}}
+     */
+    {{ClassName}}.prototype.valueOf = function() {
+        var {{childrenKey}} = this.getAll();
+        {{childrenKey}}.map(function(item) {
+            return item.valueOf();
+        });
+
+        var data = {
+        {{#each getters}}
+        {{#if ( eq name ../childrenKey ) }}
+            {{../childrenKey}} : {{../childrenKey}}
+        {{else}}
+            {{name}} : this.{{getter}}(),
+        {{/if}}
+        {{/each}}
+        }
+
+        return data;
+    }
+
+    /**
+     * Get the {{#bracket}}{{ClassName}}{{/bracket}} as a JSON object.
+     * @returns {string}
+     */
+    {{ClassName}}.prototype.toJSON = function() {
+        return JSON.stringify(this.valueOf());
+    }
+
+    if (typeof module !== 'undefined' && module.exports) {
+        module.exports = {{ClassName}};
+    }
+    else if ( typeof exports === 'object' ){
+        exports.{{ClassName}} = {{ClassName}};
+    }
+
+})(this, module, exports);
+
+

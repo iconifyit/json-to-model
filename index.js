@@ -1,4 +1,3 @@
-
 /*
  * Import dependencies.
  */
@@ -81,18 +80,49 @@ class JsonToJsModel {
         /*
          * Create the model object.
          */
-        const model = new JsonToModel(
+
+        let rootDir = './';
+
+        if (! fs.existsSync('./templates/') && fs.existsSync('../templates/')) {
+            rootDir = '../';
+        }
+
+        console.log('rootDir', rootDir);
+
+        const es5__model = new JsonToModel(
             meta.__className,
             meta,
-            path.join('./templates/', meta.__type === kTYPE_ITEM ? 'item.handlebars' : 'collection.handlebars')
+            path.join(
+                rootDir,
+                'templates',
+                meta.__type === kTYPE_ITEM ?
+                    'es5--item.handlebars' :
+                    'es5--collection.handlebars'
+            )
+        ).toString();
+
+        const es6__model = new JsonToModel(
+            meta.__className,
+            meta,
+            path.join(
+                rootDir,
+                'templates',
+                meta.__type === kTYPE_ITEM ?
+                    'es6--item.handlebars' :
+                    'es6--collection.handlebars'
+            )
         ).toString();
 
         /*
          * Write the JavaScript code to a new file.
          */
-        fs.writeFileSync(path.join(output, meta.__className + '.js'), model, kUTF8);
+        const es5__path = path.join(output, meta.__className + '.es5.js'),
+              es6__path = path.join(output, meta.__className + '.es6.js');
 
-        this.output = path.join(output, meta.__className + '.js');
+        fs.writeFileSync(es5__path, es5__model, kUTF8);
+        fs.writeFileSync(es6__path, es6__model, kUTF8);
+
+        this.output = [ es5__path, es6__path ];
     }
 
     getOutput() {
@@ -100,5 +130,26 @@ class JsonToJsModel {
     }
 }
 
-exports.JsonToJsModel = JsonToJsModel;
-module.exports = JsonToJsModel;
+(function (root, factory, moduleName, theModule) {
+    if (typeof define === 'function' && define.amd) {
+        define([moduleName], factory);
+    }
+    else if (typeof module === 'object' && module.exports) {
+        module.exports = theModule;
+    }
+    else if (typeof exports === 'object') {
+        exports[moduleName] = theModule;
+    }
+    else {
+        root.returnExports = factory(root[moduleName]);
+    }
+}(typeof self !== 'undefined' ? self : this, function(theModule) {
+    return theModule;
+}, 'JsonToJsModel', JsonToJsModel));
+
+// if ( typeof exports === 'object' ){
+//     exports.{{ClassName}} = {{ClassName}};
+// }
+// else if (typeof module === 'object') {
+//     module.exports = {{ClassName}};
+// }

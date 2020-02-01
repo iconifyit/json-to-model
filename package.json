@@ -19,7 +19,8 @@
     "email" : "scott@atomiclotus.net"
   },
   "bin": {
-    "json-to-model": "cli.js"
+    "modelme": "cli.js",
+    "pojo" : "cli.js"
   },
   "repository": {
     "type": "git",

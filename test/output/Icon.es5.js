@@ -6,91 +6,74 @@
  *
  */
 
-((global) => {
-    let get = (subject, key, fallback) => {
-        if (typeof subject[key] !== 'undefined') {
-            return subject[key];
-        }
-        return fallback;
+(function(global, module, exports) {
+
+    'use strict';
+
+    var Icon = function(data) {
+
+        this.instance = 'Icon@' + this._generateUUID();
+
+        /**
+         * {string}
+         */
+        this.primaryKey = 'identifier';
+
+        if (! data) data = {};
+
+        /**
+         * {string}
+         */
+        this.identifier = this._get(data, 'identifier', this._generateUUID());
+        /**
+         * {string}
+         */
+        this.name = this._get(data, 'name', null);
+        /**
+         * {string}
+         */
+        this.tags = this._get(data, 'tags', null);
+        /**
+         * {string}
+         */
+        this.file = this._get(data, 'file', null);
+        /**
+         * {string}
+         */
+        this.licence = this._get(data, 'licence', null);
+        /**
+         * {string}
+         */
+        this.date = this._get(data, 'date', null);
+        /**
+         * {number}
+         */
+        this.width = this._get(data, 'width', null);
+        /**
+         * {number}
+         */
+        this.height = this._get(data, 'height', null);
+        /**
+         * {string}
+         */
+        this.parent = this._get(data, 'parent', null);
+        /**
+         * {number}
+         */
+        this.type = this._get(data, 'type', null);
+        /**
+         * {string}
+         */
+        this.unicode = this._get(data, 'unicode', null);
     }
 
-    let generateUUID = () => {
-        var d = new Date().getTime();
-        if (typeof performance !== 'undefined' && typeof performance.now === 'function'){
-            d += performance.now(); //use high-precision timer if available
-        }
-        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-            var r = (d + Math.random() * 16) % 16 | 0;
-            d = Math.floor(d / 16);
-            return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
-        });
-    }
-
-    default class Icon {
-
-        constructor(data) {
-            this.instance = 'Icon@' + generateUUID();
-
-            /**
-            * {string}
-            */
-            this.primaryKey = 'identifier';
-
-            if (! data) data = {};
-
-                /**
-                * {string}
-                */
-                this.identifier = get(data, 'identifier', generateUUID());
-                /**
-                * {string}
-                */
-                this.name = get(data, 'name', null);
-                /**
-                * {string}
-                */
-                this.tags = get(data, 'tags', null);
-                /**
-                * {string}
-                */
-                this.file = get(data, 'file', null);
-                /**
-                * {string}
-                */
-                this.licence = get(data, 'licence', null);
-                /**
-                * {string}
-                */
-                this.date = get(data, 'date', null);
-                /**
-                * {number}
-                */
-                this.width = get(data, 'width', null);
-                /**
-                * {number}
-                */
-                this.height = get(data, 'height', null);
-                /**
-                * {string}
-                */
-                this.parent = get(data, 'parent', null);
-                /**
-                * {number}
-                */
-                this.type = get(data, 'type', null);
-                /**
-                * {string}
-                */
-                this.unicode = get(data, 'unicode', null);
-        }
-    }
-
+    // Getters
 
     /**
      * Gets the value of identifier
      * @returns {string}
      */
-    Icon.prototype.getIdentifier = () => {
+    Icon.prototype.getIdentifier = function() {
         return this.identifier;
     }
 
@@ -98,7 +81,7 @@
      * Gets the value of name
      * @returns {string}
      */
-    Icon.prototype.getName = () => {
+    Icon.prototype.getName = function() {
         return this.name;
     }
 
@@ -106,7 +89,7 @@
      * Gets the value of tags
      * @returns {string}
      */
-    Icon.prototype.getTags = () => {
+    Icon.prototype.getTags = function() {
         return this.tags;
     }
 
@@ -114,7 +97,7 @@
      * Gets the value of file
      * @returns {string}
      */
-    Icon.prototype.getFile = () => {
+    Icon.prototype.getFile = function() {
         return this.file;
     }
 
@@ -122,7 +105,7 @@
      * Gets the value of licence
      * @returns {string}
      */
-    Icon.prototype.getLicence = () => {
+    Icon.prototype.getLicence = function() {
         return this.licence;
     }
 
@@ -130,7 +113,7 @@
      * Gets the value of date
      * @returns {string}
      */
-    Icon.prototype.getDate = () => {
+    Icon.prototype.getDate = function() {
         return this.date;
     }
 
@@ -138,7 +121,7 @@
      * Gets the value of width
      * @returns {number}
      */
-    Icon.prototype.getWidth = () => {
+    Icon.prototype.getWidth = function() {
         return this.width;
     }
 
@@ -146,7 +129,7 @@
      * Gets the value of height
      * @returns {number}
      */
-    Icon.prototype.getHeight = () => {
+    Icon.prototype.getHeight = function() {
         return this.height;
     }
 
@@ -154,7 +137,7 @@
      * Gets the value of parent
      * @returns {string}
      */
-    Icon.prototype.getParent = () => {
+    Icon.prototype.getParent = function() {
         return this.parent;
     }
 
@@ -162,7 +145,7 @@
      * Gets the value of type
      * @returns {number}
      */
-    Icon.prototype.getType = () => {
+    Icon.prototype.getType = function() {
         return this.type;
     }
 
@@ -170,17 +153,18 @@
      * Gets the value of unicode
      * @returns {string}
      */
-    Icon.prototype.getUnicode = () => {
+    Icon.prototype.getUnicode = function() {
         return this.unicode;
     }
 
+    // Setters
 
     /**
      * Sets the value of identifier
      * @param {string} value  The value to set identifier to.
      * @returns {string}
      */
-    Icon.prototype.setIdentifier = (value) => {
+    Icon.prototype.setIdentifier = function(value) {
         this.identifier = value;
         return this.identifier;
     }
@@ -190,7 +174,7 @@
      * @param {string} value  The value to set name to.
      * @returns {string}
      */
-    Icon.prototype.setName = (value) => {
+    Icon.prototype.setName = function(value) {
         this.name = value;
         return this.name;
     }
@@ -200,7 +184,7 @@
      * @param {string} value  The value to set tags to.
      * @returns {string}
      */
-    Icon.prototype.setTags = (value) => {
+    Icon.prototype.setTags = function(value) {
         this.tags = value;
         return this.tags;
     }
@@ -210,7 +194,7 @@
      * @param {string} value  The value to set file to.
      * @returns {string}
      */
-    Icon.prototype.setFile = (value) => {
+    Icon.prototype.setFile = function(value) {
         this.file = value;
         return this.file;
     }
@@ -220,7 +204,7 @@
      * @param {string} value  The value to set licence to.
      * @returns {string}
      */
-    Icon.prototype.setLicence = (value) => {
+    Icon.prototype.setLicence = function(value) {
         this.licence = value;
         return this.licence;
     }
@@ -230,7 +214,7 @@
      * @param {string} value  The value to set date to.
      * @returns {string}
      */
-    Icon.prototype.setDate = (value) => {
+    Icon.prototype.setDate = function(value) {
         this.date = value;
         return this.date;
     }
@@ -240,7 +224,7 @@
      * @param {number} value  The value to set width to.
      * @returns {number}
      */
-    Icon.prototype.setWidth = (value) => {
+    Icon.prototype.setWidth = function(value) {
         this.width = value;
         return this.width;
     }
@@ -250,7 +234,7 @@
      * @param {number} value  The value to set height to.
      * @returns {number}
      */
-    Icon.prototype.setHeight = (value) => {
+    Icon.prototype.setHeight = function(value) {
         this.height = value;
         return this.height;
     }
@@ -260,7 +244,7 @@
      * @param {string} value  The value to set parent to.
      * @returns {string}
      */
-    Icon.prototype.setParent = (value) => {
+    Icon.prototype.setParent = function(value) {
         this.parent = value;
         return this.parent;
     }
@@ -270,7 +254,7 @@
      * @param {number} value  The value to set type to.
      * @returns {number}
      */
-    Icon.prototype.setType = (value) => {
+    Icon.prototype.setType = function(value) {
         this.type = value;
         return this.type;
     }
@@ -280,16 +264,46 @@
      * @param {string} value  The value to set unicode to.
      * @returns {string}
      */
-    Icon.prototype.setUnicode = (value) => {
+    Icon.prototype.setUnicode = function(value) {
         this.unicode = value;
         return this.unicode;
+    }
+
+    // Utility functions
+
+    /**
+     * Gets the value of an object property by name.
+     * @param {object}  subject     The object to search.
+     * @param {string}  key         The name of the property to get.
+     * @param {*}       fallback    The default value to return if key is not found.
+     */
+    Icon.prototype._get = function(subject, key, fallback) {
+        if (typeof subject[key] !== 'undefined') {
+            return subject[key];
+        }
+        return fallback;
+    }
+
+    /**
+     * Creates a unique identifier in UUID format.
+     */
+    Icon.prototype._generateUUID = function() {
+        var d = new Date().getTime();
+        if (typeof performance !== 'undefined' && typeof performance.now === 'function'){
+            d += performance.now(); //use high-precision timer if available
+        }
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+            var r = (d + Math.random() * 16) % 16 | 0;
+            d = Math.floor(d / 16);
+            return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+        });
     }
 
     /**
      * Get the {Icon} as on object of key => value pairs.
      * @returns {Icon[]}
      */
-    Icon.prototype.valueOf = () => {
+    Icon.prototype.valueOf = function() {
         return {
             identifier : this.getIdentifier(),
             name : this.getName(),
@@ -309,17 +323,17 @@
      * Get the {Icon} as a JSON object.
      * @returns {string}
      */
-    Icon.prototype.toJSON = () => {
+    Icon.prototype.toJSON = function() {
         return JSON.stringify(this.valueOf());
     }
-})(this);
 
-if (typeof modules !== 'undefined' && module.exports) {
-    module.exports = Icon;
-}
-else if ( typeof exports === 'object' ){
-    exports.Icon = Icon;
-}
-else {
-    export Icon;
-}
+    if (typeof module !== 'undefined' && module.exports) {
+        module.exports = Icon;
+    }
+    else if ( typeof exports === 'object' ){
+        exports.Icon = Icon;
+    }
+
+})(this, module, exports);
+
+

@@ -1,0 +1,117 @@
+/*
+ * Copyright (c) 2020.-present Atomic Lotus, LLC - Scott Lewis <scott@atomiclotus.net>
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+(function(global, module, exports) {
+
+    'use strict';
+
+    var {{ClassName}} = function(data) {
+
+        this.instance = '{{ClassName}}@' + this._generateUUID();
+
+        /**
+         * {string}
+         */
+        this.primaryKey = '{{primaryKey}}';
+
+        if (! data) data = {};
+
+    {{#each properties}}
+        /**
+         * {{#bracket}}{{type}}{{/bracket}}
+         */
+        this.{{name}} = this._get(data, '{{name}}',{{#if primary}} this._generateUUID(){{else}} null{{/if}});
+    {{/each}}
+    }
+
+    // Getters
+    {{#each getters}}
+
+    /**
+     * Gets the value of {{name}}
+     * @returns {{#bracket}}{{type}}{{/bracket}}
+     */
+    {{ClassName}}.prototype.{{getter}} = function() {
+        return this.{{name}};
+    }
+    {{/each}}
+
+    // Setters
+    {{#each setters}}
+
+    /**
+     * Sets the value of {{name}}
+     * @param {{#bracket}}{{type}}{{/bracket}} value  The value to set {{name}} to.
+     * @returns {{#bracket}}{{type}}{{/bracket}}
+     */
+    {{ClassName}}.prototype.{{setter}} = function(value) {
+        this.{{name}} = value;
+        return this.{{name}};
+    }
+    {{/each}}
+
+    // Utility functions
+
+    /**
+     * Gets the value of an object property by name.
+     * @param {object}  subject     The object to search.
+     * @param {string}  key         The name of the property to get.
+     * @param {*}       fallback    The default value to return if key is not found.
+     */
+    {{ClassName}}.prototype._get = function(subject, key, fallback) {
+        if (typeof subject[key] !== 'undefined') {
+            return subject[key];
+        }
+        return fallback;
+    }
+
+    /**
+     * Creates a unique identifier in UUID format.
+     */
+    {{ClassName}}.prototype._generateUUID = function() {
+        var d = new Date().getTime();
+        if (typeof performance !== 'undefined' && typeof performance.now === 'function'){
+            d += performance.now(); //use high-precision timer if available
+        }
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+            var r = (d + Math.random() * 16) % 16 | 0;
+            d = Math.floor(d / 16);
+            return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+        });
+    }
+
+    /**
+     * Get the {{#bracket}}{{ClassName}}{{/bracket}} as on object of key => value pairs.
+     * @returns {{#bracket}}{{ClassName}}[]{{/bracket}}
+     */
+    {{ClassName}}.prototype.valueOf = function() {
+        return {
+        {{#each getters}}
+            {{name}} : this.{{getter}}(),
+        {{/each}}
+        }
+    }
+
+    /**
+     * Get the {{#bracket}}{{ClassName}}{{/bracket}} as a JSON object.
+     * @returns {string}
+     */
+    {{ClassName}}.prototype.toJSON = function() {
+        return JSON.stringify(this.valueOf());
+    }
+
+    if (typeof module !== 'undefined' && module.exports) {
+        module.exports = {{ClassName}};
+    }
+    else if ( typeof exports === 'object' ){
+        exports.{{ClassName}} = {{ClassName}};
+    }
+
+})(this, module, exports);
+
+

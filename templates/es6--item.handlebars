@@ -1,0 +1,105 @@
+/*
+ * Copyright (c) 2020.-present Atomic Lotus, LLC - Scott Lewis <scott@atomiclotus.net>
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+((global, module, exports) => {
+
+    const get = (subject, key, fallback) => {
+        if (typeof subject[key] !== 'undefined') {
+            return subject[key];
+        }
+        return fallback;
+    }
+
+    class {{ClassName}} {
+
+        constructor(data) {
+            this.instance = '{{ClassName}}@' + this.generateUUID();
+
+            /**
+             * {string}
+             */
+            this.primaryKey = '{{primaryKey}}';
+
+            if (! data) data = {};
+
+            {{#each properties}}
+                /**
+                 * {{#bracket}}{{type}}{{/bracket}}
+                 */
+                this.{{name}} = get(data, '{{name}}',{{#if primary}} this.generateUUID(){{else}} null{{/if}});
+            {{/each}}
+        }
+
+        /**
+         * Creates a unique identifier in UUID format.
+         */
+        generateUUID() {
+            let d = new Date().getTime();
+            if (typeof performance !== 'undefined' && typeof performance.now === 'function'){
+                d += performance.now(); //use high-precision timer if available
+            }
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
+                let r = (d + Math.random() * 16) % 16 | 0;
+                d = Math.floor(d / 16);
+                return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+            });
+        }
+
+        {{#each getters}}
+
+        /**
+         * Gets the value of {{name}}
+         * @returns {{#bracket}}{{type}}{{/bracket}}
+         */
+        {{getter}}() {
+            return this.{{name}};
+        }
+        {{/each}}
+
+        {{#each setters}}
+
+        /**
+         * Sets the value of {{name}}
+         * @param {{#bracket}}{{type}}{{/bracket}} value  The value to set {{name}} to.
+         * @returns {{#bracket}}{{type}}{{/bracket}}
+         */
+        {{setter}}(value) {
+            this.{{name}} = value;
+            return this.{{name}};
+        }
+        {{/each}}
+
+        /**
+         * Get the {{#bracket}}{{ClassName}}{{/bracket}} as on object of key => value pairs.
+         * @returns {{#bracket}}{{ClassName}}[]{{/bracket}}
+         */
+        valueOf() {
+            return {
+            {{#each getters}}
+                {{name}} : this.{{getter}}(),
+            {{/each}}
+            }
+        }
+
+        /**
+         * Get the {{#bracket}}{{ClassName}}{{/bracket}} as a JSON object.
+         * @returns {string}
+         */
+        toJSON() {
+            return JSON.stringify(this.valueOf());
+        }
+    }
+
+    if (typeof module !== 'undefined' && module.exports) {
+        module.exports = {{ClassName}};
+    }
+    else if ( typeof exports === 'object' ){
+        exports.{{ClassName}} = {{ClassName}};
+    }
+
+})(this, module, exports);
