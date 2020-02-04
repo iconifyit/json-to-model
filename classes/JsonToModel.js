@@ -6,6 +6,11 @@
  *
  */
 
+// vendor/datejs/build/date-en-US.js
+
+const DateJS = require('../vendor/datejs/build/date');
+
+
 function generateUUID() {
     var d = new Date().getTime();
     if (typeof performance !== 'undefined' && typeof performance.now === 'function'){
@@ -30,24 +35,16 @@ const kPRIMARY_KEY  = '__primaryKey',
       kMODEL_TYPE   = '__type',
       kCLASS_NAME   = '__className';
 
-const privateKeys = [
+const kDIRECTIVES = new Set([
     kPRIMARY_KEY,
     kPARENT_KEY,
     kCHILDREN_KEY,
     kMODEL_TYPE,
     kCLASS_NAME
-];
+]);
 
 class JsonToModel {
     constructor(className, data, tpl, vars) {
-
-        if (! className || typeof className !== 'string') {
-            throw new Error('ClassName is required');
-        }
-
-        if (typeof data !== 'object') {
-            throw new Error('data must be a JSON object');
-        }
 
         const fs         = require('fs'),
               handlebars = require('handlebars'),
@@ -75,7 +72,7 @@ class JsonToModel {
             return `${open}${options.fn(this)}${close}`;
         });
 
-        const template = handlebars.compile(fs.readFileSync(tpl, kUTF8));
+        const template = handlebars.compile( fs.readFileSync(tpl, kUTF8) );
 
         const view = {
             ClassName   : className,
@@ -93,28 +90,49 @@ class JsonToModel {
             }
         }
 
+        var value, valueType;
+
         for (var key in data) {
 
-            if (privateKeys.indexOf(key) !== -1) continue;
+            if (kDIRECTIVES.has(key)) continue;
+
+            value     = data[key];
+            valueType = typeof value;
+
+            if (Date.parse(value)) {
+                valueType === 'date';
+                defaultValue =  Date.parse(value);
+            }
+
+            var defaultValue = 'null';
+
+            if (valueType === 'object') {
+                defaultValue = '{}';
+            }
+            else if (Date.parse(value)) {
+                valueType = 'date';
+                defaultValue = "(new Date()).toISOString()";
+            }
 
             view.properties.push({
-                name  : key,
-                type  : typeof data[key],
-                primary : key === data[kPRIMARY_KEY] ? true : false
+                name    : key,
+                type    : valueType,
+                primary : key === data[kPRIMARY_KEY] ? true : false,
+                defaultValue : defaultValue
             });
 
             view.setters.push({
                 ClassName : className,
-                name   : key,
-                setter : 'set' + ucWords(key),
-                type   : typeof data[key]
+                name      : key,
+                setter    : 'set' + ucWords(key),
+                type      : valueType
             });
 
             view.getters.push({
                 ClassName : className,
                 name      : key,
                 getter    : 'get' + ucWords(key),
-                type      : typeof data[key]
+                type      : valueType
             });
         }
 

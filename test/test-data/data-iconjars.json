@@ -1,0 +1,47 @@
+[{
+  "meta": {
+    "version" : 2,
+    "build"   : {
+      "version" : "30290",
+      "build"   : "1.13.3"
+    },
+    "date" : "2020-01-22 21:08:50"
+  },
+  "sets": {
+    "096B299A-62A5-41E9-B598-00DBD09FC1B4" : {
+      "date"       : "2020-01-22 20:45:37",
+      "parent"     : "B4FF6C41-534D-40CE-B5FF-6BFBB21E5471",
+      "licence"    : "",
+      "name"       : "Set One",
+      "sort"       : 0,
+      "identifier" : "096B299A-62A5-41E9-B598-00DBD09FC1B4"
+    }
+  },
+  "licences" : {},
+  "groups" : {
+    "B4FF6C41-534D-40CE-B5FF-6BFBB21E5471" : {
+      "name"       : "Group One",
+      "sort"       : 1,
+      "identifier" : "B4FF6C41-534D-40CE-B5FF-6BFBB21E5471"
+    }
+  },
+  "items": {
+    "9A08AADE-2E8B-44C0-8553-06EFACB3B9B5": {
+      "height"     : 0,
+      "parent"     : "096B299A-62A5-41E9-B598-00DBD09FC1B4",
+      "licence"    : "",
+      "width"      : 0,
+      "date"       : "2019-06-13 07:36:28",
+      "identifier" : "9A08AADE-2E8B-44C0-8553-06EFACB3B9B5",
+      "file"       : "batman.svg",
+      "type"       : 0,
+      "unicode"    : "",
+      "tags"       : "batman",
+      "name"       : "batman"
+    }
+  },
+  "__primaryKey" : "",
+  "__parent"     : null,
+  "__type"       : "item",
+  "__className"  : "IconJar"
+}]

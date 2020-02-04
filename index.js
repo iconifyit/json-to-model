@@ -43,11 +43,20 @@ class JsonToJsModel {
         /*
          * Loop through the arguments (input file paths).
          */
-        const meta = JSON.parse(fs.readFileSync(input, kUTF8));
+        let meta = undefined;
+        try {
+            meta = JSON.parse(fs.readFileSync(input, kUTF8));
+        }
+        catch(e) {
+            throw new Error('Could not parse `meta` JSON. ' + e.message);
+        }
 
         /*
          * Make sure the JSON object has the required properties to determine the correct output.
          */
+        if (typeof meta !== 'object') {
+            throw new Error('META must be a JSON object. `' + typeof meta + '` given');
+        }
 
         /*
          * Class name is required to know what we are creating.
@@ -66,14 +75,14 @@ class JsonToJsModel {
         /*
          * Primary key tells JsonToModel which property uniquely identifies an instance of the class.
          */
-        if (! meta.__primaryKey) {
+        if (meta.__parent && ! meta.__primaryKey) {
             throw new Error('model.__primaryKey is required in the JSON defintion');
         }
 
         /*
          * The parent property allows items and collections to be cross-referenced.
          */
-        if (! meta.__parent) {
+        if (meta.__type === 'collection' && ! meta.__parent) {
             throw new Error('model._parent is required in the JSON defintion');
         }
 
