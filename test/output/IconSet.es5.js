@@ -49,7 +49,7 @@
         /**
          * {date}
          */
-        this.date = this._get(data, 'date', null);
+        this.date = this._get(data, 'date', (new Date()).toISOString());
         /**
          * {string}
          */
@@ -61,7 +61,7 @@
         /**
          * {object}
          */
-        this.children = this._get(data, 'children', null);
+        this.children = this._get(data, 'children', {});
     }
 
     // Getters

@@ -38,7 +38,7 @@
         /**
          * {{#bracket}}{{type}}{{/bracket}}
          */
-        this.{{name}} = this._get(data, '{{name}}',{{#if primary}} this._generateUUID(){{else}} null{{/if}});
+        this.{{name}} = this._get(data, '{{name}}',{{#if primary}} this._generateUUID(){{else}} {{defaultValue}}{{/if}});
     {{/each}}
     }
 
