@@ -71,17 +71,19 @@ JSON data but include only sample data.
 
 #### __primaryKey
 
-Specifies the name of the primary key field such as ID, identifier, GUID, etc. This is not the *value* of the field, it is the *name* of the field.
+Specifies the name of the primary key field such as ID, identifier, GUID, etc. This is not the *value* of the 
+field, it is the *name* of the field.
 
 #### __parent
 
-Specifies the name of the parent field. The parent field connects items and sets (collections) via a primary key. The __parent should be set on 
-the single item and should point to the __primaryKey of the collection.
+Specifies the name of the parent field. The parent field connects items and sets (collections) via a primary key. 
+The __parent should be set on the single item and should point to the __primaryKey of the collection.
 
 #### __children
 
-Specifies the field on the collection which will contain the array of single items. This is the name of the field, not the value of the field. 
-__children should be set on the collection definition, not the item unless items can also be collections such as in a multi-level hierarchy.
+Specifies the field on the collection which will contain the array of single items. This is the name of the field, 
+not the value of the field. `__children` should be set on the collection definition, not the item unless items can 
+also be collections such as in a multi-level hierarchy.
 
 #### __type
 
@@ -101,7 +103,10 @@ from the final property name so you won't end up with `firstName::string` in you
 
 **DO NOT** add type delcarations to meta properties (those with two underscores at the beginning of the name).
 
-NB : On the roadmap I plan to add complex type validations like `url`, `email`, etc.
+NB : On the roadmap I plan to add complex type validations like `url`, `email`, etc. The best way to learn how to 
+use the package is probably looking at the files in `test`, in particular the `definitions`. The markup is very 
+simple and easy-to-understand. It's just JSON with a few extra properties to tell the parser how you intend for 
+your classes to be connected.
 
 #### Example Type Declaraction
 
@@ -159,6 +164,7 @@ ES6 and to generate both ES6 and ES5 output.
 The solution is to output a utility file with the classes that will allow developers to either use the provided 
 utility file, or roll their own. Another option is to use existing NPM packages for this functionality whenever possible.
 Everything is a trade-off and for now self-encapsulation is the best, simplest solution.
+- Need to remove unnecessary dev files from package.
 
 ## Roadmap
 
