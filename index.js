@@ -73,20 +73,6 @@ class JsonToJsModel {
         }
 
         /*
-         * Primary key tells JsonToModel which property uniquely identifies an instance of the class.
-         */
-        if (meta.__parent && ! meta.__primaryKey) {
-            // throw new Error('model.__primaryKey is required in the JSON defintion');
-        }
-
-        /*
-         * The parent property allows items and collections to be cross-referenced.
-         */
-        if (meta.__type === 'collection' && ! meta.__parent) {
-            // throw new Error('model._parent is required in the JSON defintion');
-        }
-
-        /*
          * Create the model object.
          */
 
@@ -155,10 +141,3 @@ class JsonToJsModel {
 }(typeof self !== 'undefined' ? self : this, function(theModule) {
     return theModule;
 }, 'JsonToJsModel', JsonToJsModel));
-
-// if ( typeof exports === 'object' ){
-//     exports.{{ClassName}} = {{ClassName}};
-// }
-// else if (typeof module === 'object') {
-//     module.exports = {{ClassName}};
-// }

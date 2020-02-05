@@ -151,3 +151,16 @@ others (most) use their own implementation of CEP which is based on CEF (Chromiu
 So in order to be able to use the tool for my work building Illustrator and Photoshop extensions, I had to generate 
 ES5 classes instead of ES6. This is, however, _alpha_ code and the plan is to update the package itself to use only 
 ES6 and to generate both ES6 and ES5 output.
+
+## Known Issues
+
+- A fair amount of code is duplicated in paird collection and item classes.
+- Methods like `generateUUID()` do not belong in the resulting class. They were added to avoid dependencies. 
+The solution is to output a utility file with the classes that will allow developers to either use the provided 
+utility file, or roll their own. Another option is to use existing NPM packages for this functionality whenever possible.
+Everything is a trade-off and for now self-encapsulation is the best, simplest solution.
+
+## Roadmap
+
+- Add complex type validations for things like email, url, etc.
+- Add unit tests for this package and for resulting classes (some basic testing is in test.js already)
