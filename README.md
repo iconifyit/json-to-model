@@ -4,7 +4,7 @@ Converts a JSON object to JavaScript class (singles &amp; multiples) with getter
 
 ## Usage:
 
-json-to-js-model can be used as an import in a Node project or as a command-line utility. The tool takes a JSON
+`json-to-js-model` can be used as an import in a Node project or as a command-line utility. The tool takes a JSON
 description file of key -> value pairs and generates a JavaScript model with getters and setters.
 
 ### Single Item example
@@ -52,8 +52,8 @@ description file of key -> value pairs and generates a JavaScript model with get
 
 ### Meta Properties
 
-`JsonToJsModel` can figure out which properties your class should have, but it nees some help understanding 
-how your classes work together. For this reason, you will need to add some very basic "meta properties to 
+`json-to-js-model` can figure out which properties your class should have, but it needs some help understanding 
+how your classes work together. For this reason, you will need to add some very basic `meta properties` to 
 your JSON. Properties that begin with two underscores `__propertyName` are private and used by json-to-js-model to 
 determine how to prepare or link the classes. There are only five (5) pre-defined 
 private properties:
@@ -93,10 +93,10 @@ Specifies the name of the class to be created.
 
 ### Specifying Data Types
 
-In most cases, `JsonToJsModel` can figure out what the intended type is, including dates (using `Date.parse()`). 
-If you encounter an error in `JsonToJsModel`'s type detection, you can explicitly decale the type by appending it 
+In most cases, `json-to-js-model` can figure out what the intended type is, including dates (using `Date.parse()`). 
+If you encounter an error in `json-to-js-model`'s type detection, you can explicitly decale the type by appending it 
 to the field (property) name with double colons `firstName::string` or `birthday::date` or `age::number`. 
-`JsonToJsModel` will honor the declared type over all other considerations. It will also strip the type declaration 
+`json-to-js-model` will honor the declared type over all other considerations. It will also strip the type declaration 
 from the final property name so you won't end up with `firstName::string` in your JS class.
 
 **DO NOT** add type delcarations to meta properties (those with two underscores at the beginning of the name).
@@ -168,3 +168,4 @@ Everything is a trade-off and for now self-encapsulation is the best, simplest s
 
 - Add complex type validations for things like email, url, etc.
 - Add unit tests for this package and for resulting classes (some basic testing is in test.js already)
+- Add recursive parsing to allow class hierarchies to be defined in a single JSON file.
