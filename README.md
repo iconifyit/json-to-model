@@ -58,13 +58,11 @@ your JSON. Properties that begin with two underscores `__propertyName` are priva
 determine how to prepare or link the classes. There are only five (5) pre-defined 
 private properties:
 
-```
-__primaryKey
-__parent
-__children
-__type
-__className
-```
+* __primaryKey
+* __parent
+* __children
+* __type
+* __className
 
 You can use your actual JSON data to create the classes or you can code up schemas that are identical to your 
 JSON data but include only sample data.
