@@ -1,0 +1,13 @@
+{
+  "version" : 2,
+  "build"   : {
+    "version" : "30290",
+    "build"   : "1.13.3"
+  },
+  "date" : "2020-01-22 21:08:50",
+
+  "__primaryKey" : "",
+  "__parent"     : "IconJar",
+  "__type"       : "item",
+  "__className"  : "Meta"
+}

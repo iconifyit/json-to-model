@@ -1,6 +1,6 @@
 {
   "name": "@atomiclotus/json-to-js-model",
-  "version": "1.0.4-alpha.5",
+  "version": "1.0.4-alpha.6",
   "description": "Converts a JSON object to JavaScript object (POJSO) with getters & setters",
   "main": "index.js",
   "scripts": {
@@ -11,22 +11,23 @@
   "dependencies": {
     "fs": "0.0.1-security",
     "handlebars": "^4.7.2",
+    "inflected": "^2.0.4",
     "lodash": "^4.17.15",
     "path": "^0.12.7"
   },
-  "bugs" : {
-    "url" : "https://github.com/iconifyit/json-to-model/issues",
-    "email" : "scott@atomiclotus.net"
+  "bugs": {
+    "url": "https://github.com/iconifyit/json-to-model/issues",
+    "email": "scott@atomiclotus.net"
   },
   "bin": {
     "modelme": "cli.js",
-    "pojo" : "cli.js"
+    "pojo": "cli.js"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/iconifyit/json-to-model.git"
   },
-  "keywords" : [
+  "keywords": [
     "json",
     "javascript",
     "javascript model",
@@ -35,5 +36,3 @@
     "javascript objects"
   ]
 }
-
-

@@ -14,98 +14,73 @@
 
     'use strict';
 
-    var Group = function(data) {
+    var Build = function(data) {
 
         if (! data) data = {};
 
         var uniqueId = this._generateUUID();
 
-        this.instance = 'Group@' + uniqueId;
+        this.instance = 'Build@' + uniqueId;
 
         /**
          * {string}
          */
-        this.primaryKey = 'identifier';
+        this.primaryKey = '';
 
         /**
          * {string}
          */
-        this.name = this._get(data, 'name', null);
-        /**
-         * {number}
-         */
-        this.sort = this._get(data, 'sort', 0);
+        this.version = this._get(data, 'version', null);
         /**
          * {string}
          */
-        this.identifier = this._get(data, 'identifier', uniqueId);
+        this.build = this._get(data, 'build', (new Date()).toISOString());
 
     }
 
     // Getters
     /**
-     * Gets the value of name
+     * Gets the value of version
      * @returns {string}
      */
-    Group.prototype.getName = function() {
-        return this.name;
+    Build.prototype.getVersion = function() {
+        return this.version;
     }
 
     /**
-     * Gets the value of sort
-     * @returns {number}
-     */
-    Group.prototype.getSort = function() {
-        return this.sort;
-    }
-
-    /**
-     * Gets the value of identifier
+     * Gets the value of build
      * @returns {string}
      */
-    Group.prototype.getIdentifier = function() {
-        return this.identifier;
+    Build.prototype.getBuild = function() {
+        return this.build;
     }
 
     // Setters
 
     /**
-     * Sets the value of name
-     * @param {string} value  The value to set name to.
+     * Sets the value of version
+     * @param {string} value  The value to set version to.
      * @returns {string}
      */
-    Group.prototype.setName = function(value) {
+    Build.prototype.setVersion = function(value) {
         if (typeof value !== 'string') {
             throw new TypeError('string required. ' + typeof value + ' given');
         }
-        this.name = value;
-        return this.name;
+        this.version = value;
+        return this.version;
     }
 
     /**
-     * Sets the value of sort
-     * @param {number} value  The value to set sort to.
-     * @returns {number}
-     */
-    Group.prototype.setSort = function(value) {
-        if (typeof value !== 'number') {
-            throw new TypeError('number required. ' + typeof value + ' given');
-        }
-        this.sort = value;
-        return this.sort;
-    }
-
-    /**
-     * Sets the value of identifier
-     * @param {string} value  The value to set identifier to.
+     * Sets the value of build
+     * @param {string} value  The value to set build to.
      * @returns {string}
      */
-    Group.prototype.setIdentifier = function(value) {
+    Build.prototype.setBuild = function(value) {
         if (typeof value !== 'string') {
             throw new TypeError('string required. ' + typeof value + ' given');
         }
-        this.identifier = value;
-        return this.identifier;
+        this.build = value;
+        return this.build;
     }
 
     // Utility functions
@@ -116,7 +91,7 @@
      * @param {string}  key         The name of the property to get.
      * @param {*}       fallback    The default value to return if key is not found.
      */
-    Group.prototype._get = function(subject, key, fallback) {
+    Build.prototype._get = function(subject, key, fallback) {
         if (typeof subject[key] !== 'undefined') {
             return subject[key];
         }
@@ -126,7 +101,7 @@
     /**
      * Creates a unique identifier in UUID format.
      */
-    Group.prototype._generateUUID = function() {
+    Build.prototype._generateUUID = function() {
         var d = new Date().getTime();
         if (typeof performance !== 'undefined' && typeof performance.now === 'function'){
             d += performance.now(); //use high-precision timer if available
@@ -139,22 +114,21 @@
     }
 
     /**
-     * Get the {Group} as on object of key => value pairs.
-     * @returns {Group[]}
+     * Get the {Build} as on object of key => value pairs.
+     * @returns {Build[]}
      */
-    Group.prototype.valueOf = function() {
+    Build.prototype.valueOf = function() {
         return {
-            name : this.getName(),
-            sort : this.getSort(),
-            identifier : this.getIdentifier(),
+            version : this.getVersion(),
+            build : this.getBuild(),
         }
     }
 
     /**
-     * Get the {Group} as a JSON object.
+     * Get the {Build} as a JSON object.
      * @returns {string}
      */
-    Group.prototype.toJSON = function() {
+    Build.prototype.toJSON = function() {
         return JSON.stringify(this.valueOf());
     }
 
@@ -162,10 +136,10 @@
      * Attach to the parent scope.
      */
     if (typeof module !== 'undefined' && module.exports) {
-        module.exports = Group;
+        module.exports = Build;
     }
     else if ( typeof exports === 'object' ){
-        exports.Group = Group;
+        exports.Build = Build;
     }
 
 })(this, module, exports);

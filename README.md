@@ -50,14 +50,24 @@ description file of key -> value pairs and generates a JavaScript model with get
 
 ## Usage
 
-Properties that begin with two underscores `__propertyName` are private and used by json-to-js-model to determine how to prepare or link the classes. There are only five (5) pre-defined 
+### Meta Properties
+
+`JsonToJsModel` can figure out which properties your class should have, but it nees some help understanding 
+how your classes work together. For this reason, you will need to add some very basic "meta properties to 
+your JSON. Properties that begin with two underscores `__propertyName` are private and used by json-to-js-model to 
+determine how to prepare or link the classes. There are only five (5) pre-defined 
 private properties:
 
+```
 - __primaryKey
 - __parent
 - __children
 - __type
 - __className
+```
+
+You can use your actual JSON data to create the classes or you can code up schemas that are identical to your 
+JSON data but include only sample data.
 
 #### __primaryKey
 
@@ -81,9 +91,42 @@ The type can be either `item` or `collection` and tells json-to-js-model which J
 
 Specifies the name of the class to be created.
 
+### Specifying Data Types
+
+In most cases, `JsonToJsModel` can figure out what the intended type is, including dates (using `Date.parse()`). 
+If you encounter an error in `JsonToJsModel`'s type detection, you can explicitly decale the type by appending it 
+to the field (property) name with double colons `firstName::string` or `birthday::date` or `age::number`. 
+`JsonToJsModel` will honor the declared type over all other considerations. It will also strip the type declaration 
+from the final property name so you won't end up with `firstName::string` in your JS class.
+
+**DO NOT** add type delcarations to meta properties (those with two underscores at the beginning of the name).
+
+NB : On the roadmap I plan to add complex type validations like `url`, `email`, etc.
+
+#### Example Type Declaraction
+
+```json
+{
+  "identifier::string"   : "C60ED43C-FB42-4321-AAA4-2CD344CB2B91",
+  "name::string"         : "girl-in-ballcap",
+  "tags::array"          : ["girl", "ball cap", "baseball"],
+  "file::string"         : "girl-in-ballcap.svg",
+  "licence::string"      : "",
+  "modified::date"       : "2019-06-13 07:36:28",
+  "width::number"        : 0,
+  "height:number"        : 0,
+
+  "__primaryKey" : "identifier",
+  "__parent"     : "parent",
+  "__type"       : "item",
+  "__className"  : "Icon"
+}
+```
+
 #### Example command-line usage:
 
-Notice that you can pass as many file paths as you want. The file paths point to the JSON description files for the classes to be created.
+Notice that you can pass as many file paths as you want. The file paths point to the JSON description 
+files for the classes to be created.
 
 ```bash
 node cli.js ./path/to/item.json ./path/to/collection.json

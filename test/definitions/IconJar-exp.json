@@ -4,10 +4,18 @@
 
     "build"   : {
       "version" : "30290",
-      "build"   : "1.13.3"
+      "build"   : "1.13.3",
+
+      "__type"       : "item",
+      "__className"  : "Build"
     },
 
-    "date" : "2020-01-22 21:08:50"
+    "date" : "2020-01-22 21:08:50",
+
+    "$jsm" : {
+      "className" : "Meta",
+      "type"      : "item"
+    }
   },
 
   "sets": {
@@ -17,7 +25,12 @@
       "licence"    : "",
       "name"       : "Set One",
       "sort"       : 0,
-      "identifier" : "096B299A-62A5-41E9-B598-00DBD09FC1B4"
+      "identifier" : "096B299A-62A5-41E9-B598-00DBD09FC1B4",
+
+      "__primaryKey" : "identifier",
+      "__parent"     : "Group",
+      "__type"       : "collection",
+      "__className"  : "IconSet"
     }
   },
 
@@ -27,7 +40,12 @@
     "B4FF6C41-534D-40CE-B5FF-6BFBB21E5471" : {
       "name"       : "Group One",
       "sort"       : 1,
-      "identifier" : "B4FF6C41-534D-40CE-B5FF-6BFBB21E5471"
+      "identifier" : "B4FF6C41-534D-40CE-B5FF-6BFBB21E5471",
+
+      "__primaryKey" : "identifier",
+      "__parent"     : "IconJar",
+      "__type"       : "collection",
+      "__className"  : "Group"
     }
   },
 
@@ -43,7 +61,12 @@
       "type"       : 0,
       "unicode"    : "",
       "tags"       : "batman",
-      "name"       : "batman"
+      "name"       : "batman",
+
+      "__primaryKey" : "identifier",
+      "__parent"     : "IconSet",
+      "__type"       : "item",
+      "__className"  : "Icon"
     }
   },
 

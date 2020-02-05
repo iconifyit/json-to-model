@@ -12,7 +12,7 @@
 
 ((global, module, exports) => {
 
-    class {{ClassName}} {
+    class Meta {
 
         constructor(data) {
 
@@ -20,48 +20,94 @@
 
             const uniqueId = this.generateUUID();
 
-            this.instance = '{{ClassName}}@' + uniqueId;
+            this.instance = 'Meta@' + uniqueId;
 
             /**
              * {string}
              */
-            this.primaryKey = '{{primaryKey}}';
+            this.primaryKey = '';
 
-        {{#each properties}}
             /**
-             * {{#bracket}}{{type}}{{/bracket}}
+             * {number}
              */
-            this.{{name}} = this._get(data, '{{name}}', {{#if primary}}uniqueId{{else}}{{defaultValue}}{{/if}});
+            this.version = this._get(data, 'version', 0);
 
-        {{/each}}
+            /**
+             * {object}
+             */
+            this.build = this._get(data, 'build', {});
+
+            /**
+             * {date}
+             */
+            this.date = this._get(data, 'date', (new Date()).toISOString());
+
         }
 
-        {{#each getters}}
         /**
-         * Gets the value of {{name}}
-         * @returns {{#bracket}}{{type}}{{/bracket}}
+         * Gets the value of version
+         * @returns {number}
          */
-        {{getter}}() {
-            return this.{{name}};
+        getVersion() {
+            return this.version;
         }
 
-        {{/each}}
-
-        {{#each setters}}
         /**
-         * Sets the value of {{name}}
-         * @param {{#bracket}}{{type}}{{/bracket}} value  The value to set {{name}} to.
-         * @returns {{#bracket}}{{type}}{{/bracket}}
+         * Gets the value of build
+         * @returns {object}
          */
-        {{setter}}(value) {
-            if (typeof value !== '{{type}}') {
-                throw new TypeError('{{type}} required. ' + typeof value + ' given');
+        getBuild() {
+            return this.build;
+        }
+
+        /**
+         * Gets the value of date
+         * @returns {date}
+         */
+        getDate() {
+            return this.date;
+        }
+
+
+        /**
+         * Sets the value of version
+         * @param {number} value  The value to set version to.
+         * @returns {number}
+         */
+        setVersion(value) {
+            if (typeof value !== 'number') {
+                throw new TypeError('number required. ' + typeof value + ' given');
             }
-            this.{{name}} = value;
-            return this.{{name}};
+            this.version = value;
+            return this.version;
         }
 
-        {{/each}}
+        /**
+         * Sets the value of build
+         * @param {object} value  The value to set build to.
+         * @returns {object}
+         */
+        setBuild(value) {
+            if (typeof value !== 'object') {
+                throw new TypeError('object required. ' + typeof value + ' given');
+            }
+            this.build = value;
+            return this.build;
+        }
+
+        /**
+         * Sets the value of date
+         * @param {date} value  The value to set date to.
+         * @returns {date}
+         */
+        setDate(value) {
+            if (typeof value !== 'date') {
+                throw new TypeError('date required. ' + typeof value + ' given');
+            }
+            this.date = value;
+            return this.date;
+        }
+
         /**
          * Gets the value of an object property by name.
          * @param {object}  subject     The object to search.
@@ -91,19 +137,19 @@
         }
 
         /**
-         * Get the {{#bracket}}{{ClassName}}{{/bracket}} as on object of key => value pairs.
-         * @returns {{#bracket}}{{ClassName}}[]{{/bracket}}
+         * Get the {Meta} as on object of key => value pairs.
+         * @returns {Meta[]}
          */
         valueOf() {
             return {
-            {{#each getters}}
-                {{name}} : this.{{getter}}(),
-            {{/each}}
+                version : this.getVersion(),
+                build : this.getBuild(),
+                date : this.getDate(),
             }
         }
 
         /**
-         * Get the {{#bracket}}{{ClassName}}{{/bracket}} as a JSON object.
+         * Get the {Meta} as a JSON object.
          * @returns {string}
          */
         toJSON() {
@@ -115,10 +161,10 @@
      * A ttach to the parent scope.
      */
     if (typeof module !== 'undefined' && module.exports) {
-        module.exports = {{ClassName}};
+        module.exports = Meta;
     }
     else if ( typeof exports === 'object' ){
-        exports.{{ClassName}} = {{ClassName}};
+        exports.Meta = Meta;
     }
 
 })(this, module, exports);

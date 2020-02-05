@@ -48,31 +48,20 @@ class JsonToModel {
 
         const fs         = require('fs'),
               handlebars = require('handlebars'),
-              kUTF8      = 'utf-8';
+              kUTF8      = 'utf-8',
+              Inflector  = require('inflected');
 
+        // ===============================================================
+        // ======================= @ Handlebars @ ========================
+        // ===============================================================
 
-        handlebars.registerHelper('ucWords', function(str) {
-            return str.replace(/\b[a-z]/g, function(letter) {
-                return letter.toUpperCase();
-            });
-        });
-
-        handlebars.registerHelper('eq', function(a, b) {
-            return a === b;
-        });
-
-        handlebars.registerHelper('typeof', function(value) {
-            return typeof value;
-        });
-
-        handlebars.registerHelper('bracket', function(num, options = num) {
-            const i = Number.isInteger(num) ? num : 1;
-            const open = '{'.repeat(i);
-            const close = '}'.repeat(i);
-            return `${open}${options.fn(this)}${close}`;
-        });
+        this.addHandlebarsPlugins(handlebars);
 
         const template = handlebars.compile( fs.readFileSync(tpl, kUTF8) );
+
+        // ===============================================================
+        // ======================= ! Handlebars ! ========================
+        // ===============================================================
 
         const view = {
             ClassName   : className,
@@ -89,6 +78,12 @@ class JsonToModel {
                 view[key] = vars[key];
             }
         }
+
+        var value, valueType, defaultValue;
+
+        var props = this.walkTree(data);
+        console.log(props);
+        // fs.writeFileSync('./tmp/properties.' + new Date().getTime() + '.json', JSON.stringify(props))
 
         for (var key in data) {
 
@@ -162,6 +157,43 @@ class JsonToModel {
                 return template(view)
             }
         }
+    }
+
+    createClass(json) {
+
+    }
+
+    walkTree(item, properties = {}) {
+        for (var key in item) {
+            var value = item[key];
+            properties[key] = typeof value === 'object'
+                    ? this.walkTree(value)
+                    : value
+        }
+        return properties
+    }
+
+    addHandlebarsPlugins(handlebars) {
+        handlebars.registerHelper('ucWords', function(str) {
+            return str.replace(/\b[a-z]/g, function(letter) {
+                return letter.toUpperCase();
+            });
+        });
+
+        handlebars.registerHelper('eq', function(a, b) {
+            return a === b;
+        });
+
+        handlebars.registerHelper('typeof', function(value) {
+            return typeof value;
+        });
+
+        handlebars.registerHelper('bracket', function(num, options = num) {
+            const i = Number.isInteger(num) ? num : 1;
+            const open = '{'.repeat(i);
+            const close = '}'.repeat(i);
+            return `${open}${options.fn(this)}${close}`;
+        });
     }
 }
 

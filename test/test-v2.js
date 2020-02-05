@@ -3,15 +3,15 @@
  */
 const fs            = require('fs'),
       path          = require('path'),
-      {JsonToModel} = require('./classes/JsonToModel'),
+      {JsonToModel} = require('../classes/JsonToModel-v2'),
       handlebars    = require('handlebars');
 
 /*
  * String constants.
  */
 const kUTF8            = 'utf-8',
-      kTYPE_ITEM       = 'item',
-      kTYPE_COLLECTION = 'collection';
+    kTYPE_ITEM       = 'item',
+    kTYPE_COLLECTION = 'collection';
 
 class JsonToJsModel {
 
@@ -76,14 +76,14 @@ class JsonToJsModel {
          * Primary key tells JsonToModel which property uniquely identifies an instance of the class.
          */
         if (meta.__parent && ! meta.__primaryKey) {
-            // throw new Error('model.__primaryKey is required in the JSON defintion');
+            throw new Error('model.__primaryKey is required in the JSON defintion');
         }
 
         /*
          * The parent property allows items and collections to be cross-referenced.
          */
         if (meta.__type === 'collection' && ! meta.__parent) {
-            // throw new Error('model._parent is required in the JSON defintion');
+            throw new Error('model._parent is required in the JSON defintion');
         }
 
         /*
@@ -110,28 +110,28 @@ class JsonToJsModel {
             )
         ).toString();
 
-        const es6__model = new JsonToModel(
-            meta.__className,
-            meta,
-            path.join(
-                rootDir,
-                'templates',
-                meta.__type === kTYPE_ITEM ?
-                    'es6--item.handlebars' :
-                    'es6--collection.handlebars'
-            )
-        ).toString();
+        // const es6__model = new JsonToModel(
+        //     meta.__className,
+        //     meta,
+        //     path.join(
+        //         rootDir,
+        //         'templates',
+        //         meta.__type === kTYPE_ITEM ?
+        //             'es6--item.handlebars' :
+        //             'es6--collection.handlebars'
+        //     )
+        // ).toString();
 
         /*
          * Write the JavaScript code to a new file.
          */
-        const es5__path = path.join(output, meta.__className + '.es5.js'),
-              es6__path = path.join(output, meta.__className + '.es6.js');
-
-        fs.writeFileSync(es5__path, es5__model, kUTF8);
-        fs.writeFileSync(es6__path, es6__model, kUTF8);
-
-        this.output = [ es5__path, es6__path ];
+        // const es5__path = path.join(output, meta.__className + '.es5.js'),
+        //     es6__path = path.join(output, meta.__className + '.es6.js');
+        //
+        // fs.writeFileSync(es5__path, es5__model, kUTF8);
+        // fs.writeFileSync(es6__path, es6__model, kUTF8);
+        //
+        // this.output = [ es5__path, es6__path ];
     }
 
     getOutput() {
@@ -139,26 +139,7 @@ class JsonToJsModel {
     }
 }
 
-(function (root, factory, moduleName, theModule) {
-    if (typeof define === 'function' && define.amd) {
-        define([moduleName], factory);
-    }
-    else if (typeof module === 'object' && module.exports) {
-        module.exports = theModule;
-    }
-    else if (typeof exports === 'object') {
-        exports[moduleName] = theModule;
-    }
-    else {
-        root.returnExports = factory(root[moduleName]);
-    }
-}(typeof self !== 'undefined' ? self : this, function(theModule) {
-    return theModule;
-}, 'JsonToJsModel', JsonToJsModel));
+const input  = './definitions/IconJar-exp.json';
+const output = './output';
 
-// if ( typeof exports === 'object' ){
-//     exports.{{ClassName}} = {{ClassName}};
-// }
-// else if (typeof module === 'object') {
-//     module.exports = {{ClassName}};
-// }
+new JsonToJsModel(input, output).getOutput()

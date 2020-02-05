@@ -12,7 +12,7 @@
 
 ((global, module, exports) => {
 
-    class {{ClassName}} {
+    class Build {
 
         constructor(data) {
 
@@ -20,48 +20,68 @@
 
             const uniqueId = this.generateUUID();
 
-            this.instance = '{{ClassName}}@' + uniqueId;
+            this.instance = 'Build@' + uniqueId;
 
             /**
              * {string}
              */
-            this.primaryKey = '{{primaryKey}}';
+            this.primaryKey = '';
 
-        {{#each properties}}
             /**
-             * {{#bracket}}{{type}}{{/bracket}}
+             * {string}
              */
-            this.{{name}} = this._get(data, '{{name}}', {{#if primary}}uniqueId{{else}}{{defaultValue}}{{/if}});
+            this.version = this._get(data, 'version', null);
 
-        {{/each}}
+            /**
+             * {string}
+             */
+            this.build = this._get(data, 'build', (new Date()).toISOString());
+
         }
 
-        {{#each getters}}
         /**
-         * Gets the value of {{name}}
-         * @returns {{#bracket}}{{type}}{{/bracket}}
+         * Gets the value of version
+         * @returns {string}
          */
-        {{getter}}() {
-            return this.{{name}};
+        getVersion() {
+            return this.version;
         }
 
-        {{/each}}
-
-        {{#each setters}}
         /**
-         * Sets the value of {{name}}
-         * @param {{#bracket}}{{type}}{{/bracket}} value  The value to set {{name}} to.
-         * @returns {{#bracket}}{{type}}{{/bracket}}
+         * Gets the value of build
+         * @returns {string}
          */
-        {{setter}}(value) {
-            if (typeof value !== '{{type}}') {
-                throw new TypeError('{{type}} required. ' + typeof value + ' given');
+        getBuild() {
+            return this.build;
+        }
+
+
+        /**
+         * Sets the value of version
+         * @param {string} value  The value to set version to.
+         * @returns {string}
+         */
+        setVersion(value) {
+            if (typeof value !== 'string') {
+                throw new TypeError('string required. ' + typeof value + ' given');
             }
-            this.{{name}} = value;
-            return this.{{name}};
+            this.version = value;
+            return this.version;
         }
 
-        {{/each}}
+        /**
+         * Sets the value of build
+         * @param {string} value  The value to set build to.
+         * @returns {string}
+         */
+        setBuild(value) {
+            if (typeof value !== 'string') {
+                throw new TypeError('string required. ' + typeof value + ' given');
+            }
+            this.build = value;
+            return this.build;
+        }
+
         /**
          * Gets the value of an object property by name.
          * @param {object}  subject     The object to search.
@@ -91,19 +111,18 @@
         }
 
         /**
-         * Get the {{#bracket}}{{ClassName}}{{/bracket}} as on object of key => value pairs.
-         * @returns {{#bracket}}{{ClassName}}[]{{/bracket}}
+         * Get the {Build} as on object of key => value pairs.
+         * @returns {Build[]}
          */
         valueOf() {
             return {
-            {{#each getters}}
-                {{name}} : this.{{getter}}(),
-            {{/each}}
+                version : this.getVersion(),
+                build : this.getBuild(),
             }
         }
 
         /**
-         * Get the {{#bracket}}{{ClassName}}{{/bracket}} as a JSON object.
+         * Get the {Build} as a JSON object.
          * @returns {string}
          */
         toJSON() {
@@ -115,10 +134,10 @@
      * A ttach to the parent scope.
      */
     if (typeof module !== 'undefined' && module.exports) {
-        module.exports = {{ClassName}};
+        module.exports = Build;
     }
     else if ( typeof exports === 'object' ){
-        exports.{{ClassName}} = {{ClassName}};
+        exports.Build = Build;
     }
 
 })(this, module, exports);
