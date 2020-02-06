@@ -130,7 +130,7 @@ node cli.js ./path/to/item.json ./path/to/collection.json
 #### Example import usage:
 
 ```javascript
-const jsonToJsModel = require('../index');
+const jsonToJsModel = require('json-to-js-model');
 
 console.log(new jsonToJsModel('Icon.json', './output').getOutput());
 console.log(new jsonToJsModel('IconSet.json', './output').getOutput());
