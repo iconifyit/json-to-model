@@ -121,8 +121,7 @@ In most cases, `json-to-js-model` can figure out what the intended type is, incl
 
 #### Example command-line usage:
 
-Notice that you can pass as many file paths as you want. The file paths point to the JSON description 
-files for the classes to be created.
+Currently `json-to-js-model` can only process a single file at a time. The final RC version will include support for multiple input files and directory inputs.
 
 ```bash
 node cli.js ./path/to/item.json ./path/to/collection.json
@@ -154,3 +153,5 @@ So in order to be able to use the tool for my work building Illustrator and Phot
 - Add complex type validations for things like email, url, etc.
 - Add unit tests for this package and for resulting classes (some basic testing is in test.js already)
 - Add recursive parsing to allow class hierarchies to be defined in a single JSON file.
+- Add support for multiple file inputs via cli
+- Add support for directories as input for cli
