@@ -28,9 +28,7 @@ Quickly and easily generate JavaScript models (POJsO - Plain Old JavaScript Obje
 }
 ```
 
-The above JSON will be converted to a in both [es6 format](./test/output/Icon.es6.js) and 
-[es5 format](./test/output/Icon.es5.js). Together with a related collection definition (shown below) you can quickly 
-create models for items and collections for your app.
+The above JSON will be converted to a in both [es6 format](./test/output/Icon.es6.js) and [es5 format](./test/output/Icon.es5.js). Together with a related collection definition (shown below) you can quickly create models for items and collections for your app.
 
 ### Collection example
 
@@ -52,15 +50,11 @@ create models for items and collections for your app.
 }
 ```
 
-The above defintion will likewise generate a JavaScript model, related to the previous one, in 
-[es6 format](./test/output/IconSet.es6.js) and [es5 format](./test/output/IconSet.es5.js) so you have what 
-you need regardless which version of JavaScript your app is written in.
+The above defintion will likewise generate a JavaScript model, related to the previous one, in [es6 format](./test/output/IconSet.es6.js) and [es5 format](./test/output/IconSet.es5.js) so you have what you need regardless which version of JavaScript your app is written in.
 
-Notice that the `parent` property of the Icon definition points to the `identifier` property of the IconSet definition. 
-Also notice the `__primaryKey` meta-property indicates the `identifier` property is the model's primary key.
+Notice that the `parent` property of the Icon definition points to the `identifier` property of the IconSet definition. Also notice the `__primaryKey` meta-property indicates the `identifier` property is the model's primary key.
 
-For more insight, take a look at the example [definitions](./test/definitions), [output](./test/output), and 
-[test-data](./test/test-data) in the enclosed [test](./test) directory
+For more insight, take a look at the example [definitions](./test/definitions), [output](./test/output), and [test-data](./test/test-data) in the enclosed [test](./test) directory
 
 ## Usage
 
@@ -151,7 +145,7 @@ So in order to be able to use the tool for my work building Illustrator and Phot
 
 ## Known Issues
 
-- A fair amount of code is duplicated in paird collection and item classes.
+- A fair amount of code is duplicated in paired collection and item classes.
 - Methods like `generateUUID()` do not belong in the resulting class. They were added to avoid dependencies. The solution is to output a utility file with the classes that will allow developers to either use the provided utility file, or roll their own. Another option is to use existing NPM packages for this functionality whenever possible.Everything is a trade-off and for now self-encapsulation is the best, simplest solution.
 - Need to remove unnecessary dev files from package.
 
