@@ -2,7 +2,7 @@
 
 Quickly and easily generate JavaScript models (POJsO - Plain Old JavaScript Objects) from a JSON object with getters &amp; setters, data type validation, including single item classes and collections.
 
-## Usage:
+## How it Works
 
 `json-to-js-model` can be used as an import in a Node project or as a command-line utility. The tool takes a JSON description file of key -> value pairs and generates a JavaScript model with getters and setters.
 
@@ -55,6 +55,10 @@ The above defintion will likewise generate a JavaScript model, related to the pr
 Notice that the `parent` property of the Icon definition points to the `identifier` property of the IconSet definition. Also notice the `__primaryKey` meta-property indicates the `identifier` property is the model's primary key.
 
 For more insight, take a look at the example [definitions](./test/definitions), [output](./test/output), and [test-data](./test/test-data) in the enclosed [test](./test) directory
+
+## Installation
+
+`npm i --saveDev @atomiclotus/json-to-js-model`
 
 ## Usage
 
