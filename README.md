@@ -27,6 +27,11 @@ Quickly and easily generate JavaScript models (POJsO - Plain Old JavaScript Obje
   "__className"  : "Icon"
 }
 ```
+
+The above JSON will be converted to a in both [es6 format](./test/output/Icon.es6.js) and 
+[es5 format](./test/output/Icon.es5.js). Together with a related collection definition (shown below) you can quickly 
+create models for items and collections for your app.
+
 ### Collection example
 
 ```json
@@ -46,6 +51,16 @@ Quickly and easily generate JavaScript models (POJsO - Plain Old JavaScript Obje
   "__className"  : "IconSet"
 }
 ```
+
+The above defintion will likewise generate a JavaScript model, related to the previous one, in 
+[es6 format](./test/output/IconSet.es6.js) and [es5 format](./test/output/IconSet.es5.js) so you have what 
+you need regardless which version of JavaScript your app is written in.
+
+Notice that the `parent` property of the Icon definition points to the `identifier` property of the IconSet definition. 
+Also notice the `__primaryKey` meta-property indicates the `identifier` property is the model's primary key.
+
+For more insight, take a look at the example [definitions](./test/definitions), [output](./test/output), and 
+[test-data](./test/test-data) in the enclosed [test](./test) directory
 
 ## Usage
 
@@ -109,38 +124,6 @@ In most cases, `json-to-js-model` can figure out what the intended type is, incl
   "__className"  : "Icon"
 }
 ```
-
-The above JSON will be converted to a in both [es6 format](./test/output/Icon.es6.js) and 
-[es5 format](./test/output/Icon.es5.js). Together with a related collection definition (shown below) you can quickly 
-create models for items and collections for your app.
-
-```json
-{
-  "identifier::string"   : "E50143AB-F36E-4CA9-852A-46E83B1C3928",
-  "name::string"         : "Set Three",
-  "parent::string"       : "B4FF6C41-534D-40CE-B5FF-6BFBB21E5471",
-  "date::date"           : "2020-01-22 20:48:51",
-  "licence::string"      : "",
-  "sort::number"         : 2,
-  "children::array"      : [],
-
-  "__primaryKey" : "identifier",
-  "__parent"     : "parent",
-  "__children"   : "children",
-  "__type"       : "collection",
-  "__className"  : "IconSet"
-}
-``` 
-
-The above defintion will likewise generate a JavaScript model, related to the previous one, in 
-[es6 format](./test/output/IconSet.es6.js) and [es5 format](./test/output/IconSet.es5.js) so you have what 
-you need regardless which version of JavaScript your app is written in.
-
-Notice that the `parent` property of the Icon definition points to the `identifier` property of the IconSet definition. 
-Also notice the `__primaryKey` meta-property indicates the `identifier` property is the model's primary key.
-
-For more insight, take a look at the example [definitions](./test/definitions), [output](./test/output), and 
-[test-data](./test/test-data) in the enclosed [test](./test) directory
 
 #### Example command-line usage:
 
