@@ -6,11 +6,6 @@
  *
  */
 
-// vendor/datejs/build/date-en-US.js
-
-const DateJS = require('../vendor/datejs/build/date');
-
-
 function generateUUID() {
     var d = new Date().getTime();
     if (typeof performance !== 'undefined' && typeof performance.now === 'function'){

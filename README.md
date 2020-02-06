@@ -101,7 +101,7 @@ from the final property name so you won't end up with `firstName::string` in you
 
 **DO NOT** add type delcarations to meta properties (those with two underscores at the beginning of the name).
 
-NB : On the roadmap I plan to add complex type validations like `url`, `email`, etc. The best way to learn how to 
+**NB** : On the roadmap I plan to add complex type validations like `url`, `email`, etc. The best way to learn how to 
 use the package is probably looking at the files in `test`, in particular the `definitions`. The markup is very 
 simple and easy-to-understand. It's just JSON with a few extra properties to tell the parser how you intend for 
 your classes to be connected.
