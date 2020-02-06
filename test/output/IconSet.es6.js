@@ -59,7 +59,7 @@
             /**
              * {number}
              */
-            this.sort = this._get(data, 'sort', 0);
+            this.sort = this._get(data, 'sort', (new Date()).toISOString());
             /**
              * {array}
              */
@@ -132,6 +132,9 @@
          * @returns {string}
          */
         setIdentifier(value) {
+            if (! value instanceof String) {
+                throw new TypeError('String required.');
+            }
             this.identifier = value;
             return this.identifier;
         }
@@ -142,6 +145,9 @@
          * @returns {string}
          */
         setName(value) {
+            if (! value instanceof String) {
+                throw new TypeError('String required.');
+            }
             this.name = value;
             return this.name;
         }
@@ -152,6 +158,9 @@
          * @returns {string}
          */
         setParent(value) {
+            if (! value instanceof String) {
+                throw new TypeError('String required.');
+            }
             this.parent = value;
             return this.parent;
         }
@@ -162,6 +171,9 @@
          * @returns {date}
          */
         setDate(value) {
+            if (! value instanceof Date) {
+                throw new TypeError('Date required.');
+            }
             this.date = value;
             return this.date;
         }
@@ -172,6 +184,9 @@
          * @returns {string}
          */
         setLicence(value) {
+            if (! value instanceof String) {
+                throw new TypeError('String required.');
+            }
             this.licence = value;
             return this.licence;
         }
@@ -182,6 +197,9 @@
          * @returns {number}
          */
         setSort(value) {
+            if (! value instanceof Number) {
+                throw new TypeError('Number required.');
+            }
             this.sort = value;
             return this.sort;
         }
@@ -192,6 +210,9 @@
          * @returns {array}
          */
         setChildren(value) {
+            if (! value instanceof Array) {
+                throw new TypeError('Array required.');
+            }
             this.children = value;
             return this.children;
         }

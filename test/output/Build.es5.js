@@ -30,7 +30,7 @@
         /**
          * {string}
          */
-        this.version = this._get(data, 'version', null);
+        this.version = this._get(data, 'version', (new Date()).toISOString());
         /**
          * {string}
          */
@@ -63,8 +63,8 @@
      * @returns {string}
      */
     Build.prototype.setVersion = function(value) {
-        if (typeof value !== 'string') {
-            throw new TypeError('string required. ' + typeof value + ' given');
+        if (! value instanceof String) {
+            throw new TypeError('String required.');
         }
         this.version = value;
         return this.version;
@@ -76,8 +76,8 @@
      * @returns {string}
      */
     Build.prototype.setBuild = function(value) {
-        if (typeof value !== 'string') {
-            throw new TypeError('string required. ' + typeof value + ' given');
+        if (! value instanceof String) {
+            throw new TypeError('String required.');
         }
         this.build = value;
         return this.build;

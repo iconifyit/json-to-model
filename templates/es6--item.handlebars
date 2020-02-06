@@ -54,8 +54,8 @@
          * @returns {{#bracket}}{{type}}{{/bracket}}
          */
         {{setter}}(value) {
-            if (typeof value !== '{{type}}') {
-                throw new TypeError('{{type}} required. ' + typeof value + ' given');
+            if (! value instanceof {{ucWords type}}) {
+                throw new TypeError('{{ucWords type}} required.');
             }
             this.{{name}} = value;
             return this.{{name}};

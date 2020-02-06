@@ -95,10 +95,20 @@ inputs.map(function(item) {
             build       = new Build(),
             meta        = new Meta(metaData[0]);
 
-        build.setBuild('1');
-        build.setVersion('1.1.1.1');
+        // build = new Build({
+        //     build : 1,
+        //     version : '2.2.2'
+        // });
 
-        meta.setBuild(build.valueOf());
+        // build.setBuild('1');
+        // build.setVersion('1.1.1.1');
+
+        meta.setBuild(new Build({
+            build : 1,
+            version : '2.2.2'
+        }).valueOf());
+
+        meta.setDate(new Date());
 
         iconJar.setMeta(meta.valueOf());
 
@@ -115,10 +125,14 @@ inputs.map(function(item) {
 
                 let icon = new Icon(item);
 
+                icon.setDate(new Date());
+
                 console.log('*** ICON ***', icon);
 
                 console.log(`Testing IconSet.add(icon)`)
                 iconSet.add(icon);
+
+                iconSet.setDate(new Date());
 
                 console.log(`Testing IconSet.get(${i})`)
                 console.log("\n")

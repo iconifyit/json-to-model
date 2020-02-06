@@ -60,7 +60,7 @@
         /**
          * {number}
          */
-        this.sort = this._get(data, 'sort', 0);
+        this.sort = this._get(data, 'sort', (new Date()).toISOString());
         /**
          * {array}
          */
@@ -133,8 +133,8 @@
      * @returns {string}
      */
     IconSet.prototype.setIdentifier = function(value) {
-        if (typeof value !== 'string') {
-            throw new TypeError('string required. ' + typeof value + ' given');
+        if (! value instanceof String) {
+            throw new TypeError('String required.');
         }
         this.identifier = value;
         return this.identifier;
@@ -146,8 +146,8 @@
      * @returns {string}
      */
     IconSet.prototype.setName = function(value) {
-        if (typeof value !== 'string') {
-            throw new TypeError('string required. ' + typeof value + ' given');
+        if (! value instanceof String) {
+            throw new TypeError('String required.');
         }
         this.name = value;
         return this.name;
@@ -159,8 +159,8 @@
      * @returns {string}
      */
     IconSet.prototype.setParent = function(value) {
-        if (typeof value !== 'string') {
-            throw new TypeError('string required. ' + typeof value + ' given');
+        if (! value instanceof String) {
+            throw new TypeError('String required.');
         }
         this.parent = value;
         return this.parent;
@@ -172,8 +172,8 @@
      * @returns {date}
      */
     IconSet.prototype.setDate = function(value) {
-        if (typeof value !== 'date') {
-            throw new TypeError('date required. ' + typeof value + ' given');
+        if (! value instanceof Date) {
+            throw new TypeError('Date required.');
         }
         this.date = value;
         return this.date;
@@ -185,8 +185,8 @@
      * @returns {string}
      */
     IconSet.prototype.setLicence = function(value) {
-        if (typeof value !== 'string') {
-            throw new TypeError('string required. ' + typeof value + ' given');
+        if (! value instanceof String) {
+            throw new TypeError('String required.');
         }
         this.licence = value;
         return this.licence;
@@ -198,8 +198,8 @@
      * @returns {number}
      */
     IconSet.prototype.setSort = function(value) {
-        if (typeof value !== 'number') {
-            throw new TypeError('number required. ' + typeof value + ' given');
+        if (! value instanceof Number) {
+            throw new TypeError('Number required.');
         }
         this.sort = value;
         return this.sort;
@@ -211,8 +211,8 @@
      * @returns {array}
      */
     IconSet.prototype.setChildren = function(value) {
-        if (typeof value !== 'array') {
-            throw new TypeError('array required. ' + typeof value + ' given');
+        if (! value instanceof Array) {
+            throw new TypeError('Array required.');
         }
         this.children = value;
         return this.children;

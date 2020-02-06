@@ -28,9 +28,9 @@
         this.primaryKey = '';
 
         /**
-         * {number}
+         * {string}
          */
-        this.version = this._get(data, 'version', 0);
+        this.version = this._get(data, 'version', (new Date()).toISOString());
         /**
          * {object}
          */
@@ -45,7 +45,7 @@
     // Getters
     /**
      * Gets the value of version
-     * @returns {number}
+     * @returns {string}
      */
     Meta.prototype.getVersion = function() {
         return this.version;
@@ -71,12 +71,12 @@
 
     /**
      * Sets the value of version
-     * @param {number} value  The value to set version to.
-     * @returns {number}
+     * @param {string} value  The value to set version to.
+     * @returns {string}
      */
     Meta.prototype.setVersion = function(value) {
-        if (typeof value !== 'number') {
-            throw new TypeError('number required. ' + typeof value + ' given');
+        if (! value instanceof String) {
+            throw new TypeError('String required.');
         }
         this.version = value;
         return this.version;
@@ -88,8 +88,8 @@
      * @returns {object}
      */
     Meta.prototype.setBuild = function(value) {
-        if (typeof value !== 'object') {
-            throw new TypeError('object required. ' + typeof value + ' given');
+        if (! value instanceof Object) {
+            throw new TypeError('Object required.');
         }
         this.build = value;
         return this.build;
@@ -101,8 +101,8 @@
      * @returns {date}
      */
     Meta.prototype.setDate = function(value) {
-        if (typeof value !== 'date') {
-            throw new TypeError('date required. ' + typeof value + ' given');
+        if (! value instanceof Date) {
+            throw new TypeError('Date required.');
         }
         this.date = value;
         return this.date;

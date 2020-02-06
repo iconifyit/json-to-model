@@ -99,8 +99,8 @@
      * @returns {object}
      */
     IconJar.prototype.setMeta = function(value) {
-        if (typeof value !== 'object') {
-            throw new TypeError('object required. ' + typeof value + ' given');
+        if (! value instanceof Object) {
+            throw new TypeError('Object required.');
         }
         this.meta = value;
         return this.meta;
@@ -112,8 +112,8 @@
      * @returns {object}
      */
     IconJar.prototype.setSets = function(value) {
-        if (typeof value !== 'object') {
-            throw new TypeError('object required. ' + typeof value + ' given');
+        if (! value instanceof Object) {
+            throw new TypeError('Object required.');
         }
         this.sets = value;
         return this.sets;
@@ -125,8 +125,8 @@
      * @returns {object}
      */
     IconJar.prototype.setLicences = function(value) {
-        if (typeof value !== 'object') {
-            throw new TypeError('object required. ' + typeof value + ' given');
+        if (! value instanceof Object) {
+            throw new TypeError('Object required.');
         }
         this.licences = value;
         return this.licences;
@@ -138,8 +138,8 @@
      * @returns {object}
      */
     IconJar.prototype.setGroups = function(value) {
-        if (typeof value !== 'object') {
-            throw new TypeError('object required. ' + typeof value + ' given');
+        if (! value instanceof Object) {
+            throw new TypeError('Object required.');
         }
         this.groups = value;
         return this.groups;
@@ -151,8 +151,8 @@
      * @returns {object}
      */
     IconJar.prototype.setItems = function(value) {
-        if (typeof value !== 'object') {
-            throw new TypeError('object required. ' + typeof value + ' given');
+        if (! value instanceof Object) {
+            throw new TypeError('Object required.');
         }
         this.items = value;
         return this.items;

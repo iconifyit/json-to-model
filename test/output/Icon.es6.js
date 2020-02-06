@@ -60,12 +60,12 @@
             /**
              * {number}
              */
-            this.width = this._get(data, 'width', 0);
+            this.width = this._get(data, 'width', (new Date()).toISOString());
 
             /**
              * {number}
              */
-            this.height = this._get(data, 'height', 0);
+            this.height = this._get(data, 'height', (new Date()).toISOString());
 
             /**
              * {string}
@@ -73,9 +73,9 @@
             this.parent = this._get(data, 'parent', null);
 
             /**
-             * {number}
+             * {string}
              */
-            this.type = this._get(data, 'type', 0);
+            this.type = this._get(data, 'type', (new Date()).toISOString());
 
             /**
              * {string}
@@ -158,7 +158,7 @@
 
         /**
          * Gets the value of type
-         * @returns {number}
+         * @returns {string}
          */
         getType() {
             return this.type;
@@ -179,8 +179,8 @@
          * @returns {string}
          */
         setIdentifier(value) {
-            if (typeof value !== 'string') {
-                throw new TypeError('string required. ' + typeof value + ' given');
+            if (! value instanceof String) {
+                throw new TypeError('String required.');
             }
             this.identifier = value;
             return this.identifier;
@@ -192,8 +192,8 @@
          * @returns {string}
          */
         setName(value) {
-            if (typeof value !== 'string') {
-                throw new TypeError('string required. ' + typeof value + ' given');
+            if (! value instanceof String) {
+                throw new TypeError('String required.');
             }
             this.name = value;
             return this.name;
@@ -205,8 +205,8 @@
          * @returns {string}
          */
         setTags(value) {
-            if (typeof value !== 'string') {
-                throw new TypeError('string required. ' + typeof value + ' given');
+            if (! value instanceof String) {
+                throw new TypeError('String required.');
             }
             this.tags = value;
             return this.tags;
@@ -218,8 +218,8 @@
          * @returns {string}
          */
         setFile(value) {
-            if (typeof value !== 'string') {
-                throw new TypeError('string required. ' + typeof value + ' given');
+            if (! value instanceof String) {
+                throw new TypeError('String required.');
             }
             this.file = value;
             return this.file;
@@ -231,8 +231,8 @@
          * @returns {string}
          */
         setLicence(value) {
-            if (typeof value !== 'string') {
-                throw new TypeError('string required. ' + typeof value + ' given');
+            if (! value instanceof String) {
+                throw new TypeError('String required.');
             }
             this.licence = value;
             return this.licence;
@@ -244,8 +244,8 @@
          * @returns {date}
          */
         setDate(value) {
-            if (typeof value !== 'date') {
-                throw new TypeError('date required. ' + typeof value + ' given');
+            if (! value instanceof Date) {
+                throw new TypeError('Date required.');
             }
             this.date = value;
             return this.date;
@@ -257,8 +257,8 @@
          * @returns {number}
          */
         setWidth(value) {
-            if (typeof value !== 'number') {
-                throw new TypeError('number required. ' + typeof value + ' given');
+            if (! value instanceof Number) {
+                throw new TypeError('Number required.');
             }
             this.width = value;
             return this.width;
@@ -270,8 +270,8 @@
          * @returns {number}
          */
         setHeight(value) {
-            if (typeof value !== 'number') {
-                throw new TypeError('number required. ' + typeof value + ' given');
+            if (! value instanceof Number) {
+                throw new TypeError('Number required.');
             }
             this.height = value;
             return this.height;
@@ -283,8 +283,8 @@
          * @returns {string}
          */
         setParent(value) {
-            if (typeof value !== 'string') {
-                throw new TypeError('string required. ' + typeof value + ' given');
+            if (! value instanceof String) {
+                throw new TypeError('String required.');
             }
             this.parent = value;
             return this.parent;
@@ -292,12 +292,12 @@
 
         /**
          * Sets the value of type
-         * @param {number} value  The value to set type to.
-         * @returns {number}
+         * @param {string} value  The value to set type to.
+         * @returns {string}
          */
         setType(value) {
-            if (typeof value !== 'number') {
-                throw new TypeError('number required. ' + typeof value + ' given');
+            if (! value instanceof String) {
+                throw new TypeError('String required.');
             }
             this.type = value;
             return this.type;
@@ -309,8 +309,8 @@
          * @returns {string}
          */
         setUnicode(value) {
-            if (typeof value !== 'string') {
-                throw new TypeError('string required. ' + typeof value + ' given');
+            if (! value instanceof String) {
+                throw new TypeError('String required.');
             }
             this.unicode = value;
             return this.unicode;

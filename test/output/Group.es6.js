@@ -33,9 +33,9 @@
             this.name = this._get(data, 'name', null);
 
             /**
-             * {number}
+             * {date}
              */
-            this.sort = this._get(data, 'sort', 0);
+            this.sort = this._get(data, 'sort', (new Date()).toISOString());
 
             /**
              * {string}
@@ -54,7 +54,7 @@
 
         /**
          * Gets the value of sort
-         * @returns {number}
+         * @returns {date}
          */
         getSort() {
             return this.sort;
@@ -75,8 +75,8 @@
          * @returns {string}
          */
         setName(value) {
-            if (typeof value !== 'string') {
-                throw new TypeError('string required. ' + typeof value + ' given');
+            if (! value instanceof String) {
+                throw new TypeError('String required.');
             }
             this.name = value;
             return this.name;
@@ -84,12 +84,12 @@
 
         /**
          * Sets the value of sort
-         * @param {number} value  The value to set sort to.
-         * @returns {number}
+         * @param {date} value  The value to set sort to.
+         * @returns {date}
          */
         setSort(value) {
-            if (typeof value !== 'number') {
-                throw new TypeError('number required. ' + typeof value + ' given');
+            if (! value instanceof Date) {
+                throw new TypeError('Date required.');
             }
             this.sort = value;
             return this.sort;
@@ -101,8 +101,8 @@
          * @returns {string}
          */
         setIdentifier(value) {
-            if (typeof value !== 'string') {
-                throw new TypeError('string required. ' + typeof value + ' given');
+            if (! value instanceof String) {
+                throw new TypeError('String required.');
             }
             this.identifier = value;
             return this.identifier;

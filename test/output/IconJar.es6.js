@@ -101,8 +101,8 @@
          * @returns {object}
          */
         setMeta(value) {
-            if (typeof value !== 'object') {
-                throw new TypeError('object required. ' + typeof value + ' given');
+            if (! value instanceof Object) {
+                throw new TypeError('Object required.');
             }
             this.meta = value;
             return this.meta;
@@ -114,8 +114,8 @@
          * @returns {object}
          */
         setSets(value) {
-            if (typeof value !== 'object') {
-                throw new TypeError('object required. ' + typeof value + ' given');
+            if (! value instanceof Object) {
+                throw new TypeError('Object required.');
             }
             this.sets = value;
             return this.sets;
@@ -127,8 +127,8 @@
          * @returns {object}
          */
         setLicences(value) {
-            if (typeof value !== 'object') {
-                throw new TypeError('object required. ' + typeof value + ' given');
+            if (! value instanceof Object) {
+                throw new TypeError('Object required.');
             }
             this.licences = value;
             return this.licences;
@@ -140,8 +140,8 @@
          * @returns {object}
          */
         setGroups(value) {
-            if (typeof value !== 'object') {
-                throw new TypeError('object required. ' + typeof value + ' given');
+            if (! value instanceof Object) {
+                throw new TypeError('Object required.');
             }
             this.groups = value;
             return this.groups;
@@ -153,8 +153,8 @@
          * @returns {object}
          */
         setItems(value) {
-            if (typeof value !== 'object') {
-                throw new TypeError('object required. ' + typeof value + ' given');
+            if (! value instanceof Object) {
+                throw new TypeError('Object required.');
             }
             this.items = value;
             return this.items;

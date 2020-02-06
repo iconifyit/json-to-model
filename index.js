@@ -114,6 +114,13 @@ class JsonToJsModel {
         const es5__path = path.join(output, meta.__className + '.es5.js'),
               es6__path = path.join(output, meta.__className + '.es6.js');
 
+        /*
+         * Create the output folder if it does not exist.
+         */
+        if (! fs.existsSync(output)) {
+            fs.mkdirSync(output);
+        }
+
         fs.writeFileSync(es5__path, es5__model, kUTF8);
         fs.writeFileSync(es6__path, es6__model, kUTF8);
 
