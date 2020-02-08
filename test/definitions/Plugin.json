@@ -1,0 +1,11 @@
+{
+  "name::string"       :  "Plugin Name",
+  "client::string[]"   : [],
+  "host::object[]"     : [],
+  "disabled::boolean"  : false,
+
+  "__className"  : "Plugin",
+  "__type"       : "item",
+  "__primaryKey" : "name",
+  "__parent"     : "plugins"
+}

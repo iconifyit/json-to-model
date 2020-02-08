@@ -1,0 +1,11 @@
+{
+  "name::string"      : "Plugins",
+  "plugins::plugin[]" : [],
+  "disabled"          : false,
+
+  "__className" : "Plugins",
+  "__type"      : "collection",
+  "__children"  : "plugins",
+  "__parent"    : "pluginParent",
+  "__primaryKey" : "name"
+}

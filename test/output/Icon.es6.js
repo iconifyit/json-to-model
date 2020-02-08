@@ -316,6 +316,10 @@
             return this.unicode;
         }
 
+        // Adders
+        // removers
+        // Has-sers
+
         /**
          * Gets the value of an object property by name.
          * @param {object}  subject     The object to search.

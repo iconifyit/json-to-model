@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020.-present Atomic Lotus, LLC - Scott Lewis <scott@atomiclotus.net>
+ * Copyright (c) 2020.-present Atomic Lotus, LLC - Scott Lewis (scott@atomiclotus.net)
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -39,7 +39,7 @@
 
     {{#each properties}}
         /**
-         * {{#bracket}}{{type}}{{/bracket}}
+         * {{#bracket}}{{#if isTypedArray}}{{singleType}}[]{{else}}{{type}}{{/if}}{{/bracket}}
          */
         this.{{name}} = this._get(data, '{{name}}', {{#if primary}}uniqueId{{else}}{{defaultValue}}{{/if}});
     {{/each}}
@@ -50,7 +50,7 @@
 
     /**
      * Gets the value of {{name}}
-     * @returns {{#bracket}}{{type}}{{/bracket}}
+     * @returns {{#bracket}}{{#if isTypedArray}}{{singleType}}[]{{else}}{{returnType}}{{/if}}{{/bracket}}
      */
     {{ClassName}}.prototype.{{getter}} = function() {
         return this.{{name}};
@@ -63,14 +63,65 @@
     /**
      * Sets the value of {{name}}
      * @param {{#bracket}}{{type}}{{/bracket}} value  The value to set {{name}} to.
-     * @returns {{#bracket}}{{type}}{{/bracket}}
+     * @returns {{#bracket}}{{#if isTypedArray}}{{singleType}}[]{{else}}{{type}}{{/if}}{{/bracket}}
      */
     {{ClassName}}.prototype.{{setter}} = function(value) {
-        if (! value instanceof {{ucWords type}}) {
-            throw new TypeError('{{ucWords type}} required.');
+        if (! value instanceof {{ucSingularize returnType}}) {
+            throw new TypeError('{{ClassName}}.{{setter}}() requires a {{ucSingularize returnType}}.');
         }
         this.{{name}} = value;
         return this.{{name}};
+    }
+    {{/each}}
+
+    // Adders
+    {{#each adders}}
+
+    /**
+     * Adds a {{name}}
+     * @param {{#bracket}}{{returnType}}{{/bracket}} value  The value to add to {{name}}.
+     * @returns {{#bracket}}{{#if isTypedArray}}{{singleType}}[]{{else}}{{type}}{{/if}}{{/bracket}}
+     */
+    {{ClassName}}.prototype.{{method}} = function(value) {
+        if (! value instanceof {{#if isTypedArray}}{{ucWords singleType}}{{else}}{{ucWords returnType}}{{/if}}) {
+            throw new TypeError('{{ClassName}}.{{method}}() requires a {{#if isTypedArray}}{{ucWords singleType}}{{else}}{{ucWords returnType}}{{/if}}.');
+        }
+        if (this.{{name}} instanceof Array && this.{{name}}.indexOf(value) === -1) {
+            this.{{name}}.push(value);
+        }
+        return this.{{name}};
+    }
+    {{/each}}
+    // removers
+    {{#each removers}}
+
+    /**
+     * Removes a {{name}}
+     * @param {{#bracket}}{{type}}{{/bracket}} value  The item to remove from {{name}}.
+     * @returns {{#bracket}}{{#if isTypedArray}}{{singleType}}[]{{else}}{{type}}{{/if}}{{/bracket}}
+     */
+    {{ClassName}}.prototype.{{method}} = function(value) {
+        if (this.{{name}} instanceof Array && this.{{name}}.indexOf(value) >= 0) {
+            var filtered = [];
+            this.{{name}}.map(function(item) {
+            if (item === value) return;
+                tmp.push(item);
+            });
+            this.{{name}} = filtered;
+        }
+        return this.{{name}};
+    }
+    {{/each}}
+    // Has-sers
+    {{#each hassers}}
+
+    /**
+     * Checks to see if `value` exists in {{name}}
+     * @param {{#bracket}}{{type}}{{/bracket}} value  The value to check {{name}} for.
+     * @returns {boolean}
+     */
+    {{ClassName}}.prototype.{{method}} = function(value) {
+        return ( this.{{name}} instanceof Array && this.{{name}}.indexOf(value) >= 0 );
     }
     {{/each}}
 
@@ -78,8 +129,7 @@
 
     /**
      * Gets the first item in the collection.
-     * @param {integer}     i   The position of the item to return.
-     * @returns {{#bracket}}{{ItemName}}{{/bracket}}
+     * @returns {{#bracket}}{{ucSingularize childrenKey}}{{/bracket}}
      */
     {{ClassName}}.prototype.first = function() {
         if (this.length() > 0) {
@@ -90,7 +140,7 @@
     /**
      * Gets the last item in the collection.
      * @param {integer}     i   The position of the item to return.
-     * @returns {{#bracket}}{{ItemName}}{{/bracket}}
+     * @returns {{#bracket}}{{ucSingularize childrenKey}}{{/bracket}}
      */
     {{ClassName}}.prototype.last = function() {
         if (this.length() > 0) {
@@ -101,7 +151,7 @@
     /**
      * Gets a single item by index.
      * @param {integer}     i   The position of the item to return.
-     * @returns {{#bracket}}{{ItemName}}{{/bracket}}
+     * @returns {{#bracket}}{{ucSingularize childrenKey}}{{/bracket}}
      */
     {{ClassName}}.prototype.get = function(i) {
         return this.{{childrenKey}}[i];
@@ -111,7 +161,7 @@
      * Gets a single item by property value.
      * @param   {string}    The property name by which to search.
      * @param   {*}         The value to match.
-     * @returns {{#bracket}}{{ItemName}}{{/bracket}}
+     * @returns {{#bracket}}{{ucSingularize childrenKey}}{{/bracket}}
      */
     {{ClassName}}.prototype.item = function(key, value) {
         for (let i = 0; i < this.length(); i++) {
@@ -125,16 +175,17 @@
     /**
      * Remove item at `i` index.
      * @param {integer}
-     * @returns {string}
+     * @returns {array}
      */
     {{ClassName}}.prototype.remove = function(i) {
         this.{{childrenKey}} = this.{{childrenKey}}.splice(i, 1);
+        return this.{{childrenKey}}
     }
 
     /**
      * Adds a single item.
      * @param {{#bracket}}{{ItemName}}{{/bracket}} The item to add.
-     * @returns {{#bracket}}{{ItemName}}{{/bracket}}
+     * @returns {array}
      */
     {{ClassName}}.prototype.add = function(item) {
         if (this.item('{{primaryKey}}', item.{{primaryKey}})) {
@@ -142,23 +193,24 @@
         }
         item.{{parentKey}} = this.{{primaryKey}};
         this.{{childrenKey}}.push(item);
-        return this.last();
+        return this.{{childrenKey}};
     }
 
     /**
      * Inserts an item at the specified index.
      * @param {integer}     i   The position at which to insert the item.
      * @param {{#bracket}}{{ItemName}}{{/bracket}}
-     * @returns {string}
+     * @returns {array}
      */
     {{ClassName}}.prototype.insert = function(i, item) {
         item.{{parentKey}}   = this.{{primaryKey}};
         this.{{childrenKey}} = this.{{childrenKey}}.splice(i, 0, item);
+        return this.{{childrenKey}}
     }
 
     /**
      * Returns all {{childrenKey}} in the collection.
-     * @returns {{#bracket}}{{ItemName}}[]{{/bracket}}
+     * @returns {array}
      */
     {{ClassName}}.prototype.getAll = function() {
         return this.{{childrenKey}};
@@ -233,7 +285,7 @@
         var data = {
         {{#each getters}}
         {{#if ( eq name ../childrenKey ) }}
-            {{../childrenKey}} : {{../childrenKey}}
+            {{../childrenKey}} : {{../childrenKey}},
         {{else}}
             {{name}} : this.{{getter}}(),
         {{/if}}

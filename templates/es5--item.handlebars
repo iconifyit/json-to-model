@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2020.-present Atomic Lotus, LLC - Scott Lewis <scott@atomiclotus.net>
+ * Copyright (c) 2020.-present Atomic Lotus, LLC - Scott Lewis (scott@atomiclotus.net)
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
@@ -29,7 +29,7 @@
 
     {{#each properties}}
         /**
-         * {{#bracket}}{{type}}{{/bracket}}
+         * {{#bracket}}{{#if isTypedArray}}{{singleType}}[]{{else}}{{type}}{{/if}}{{/bracket}}
          */
         this.{{name}} = this._get(data, '{{name}}', {{#if primary}}uniqueId{{else}}{{defaultValue}}{{/if}});
     {{/each}}
@@ -40,7 +40,7 @@
     {{#each getters}}
     /**
      * Gets the value of {{name}}
-     * @returns {{#bracket}}{{type}}{{/bracket}}
+     * @returns {{#bracket}}{{#if isTypedArray}}{{singleType}}[]{{else}}{{returnType}}{{/if}}{{/bracket}}
      */
     {{ClassName}}.prototype.{{getter}} = function() {
         return this.{{name}};
@@ -52,15 +52,65 @@
 
     /**
      * Sets the value of {{name}}
-     * @param {{#bracket}}{{type}}{{/bracket}} value  The value to set {{name}} to.
-     * @returns {{#bracket}}{{type}}{{/bracket}}
+     * @param {{#bracket}}{{returnType}}{{/bracket}} value  The value to set {{name}} to.
+     * @returns {{#bracket}}{{#if isTypedArray}}{{singleType}}[]{{else}}{{type}}{{/if}}{{/bracket}}
      */
     {{ClassName}}.prototype.{{setter}} = function(value) {
-        if (! value instanceof {{ucWords type}}) {
-            throw new TypeError('{{ucWords type}} required.');
+        if (! value instanceof {{ucSingularize returnType}}) {
+            throw new TypeError('{{ClassName}}.{{setter}}() requires a {{ucSingularize returnType}}.');
         }
         this.{{name}} = value;
         return this.{{name}};
+    }
+    {{/each}}
+
+    // Adders
+    {{#each adders}}
+    /**
+     * Adds a {{name}}
+     * @param {{#bracket}}{{returnType}}{{/bracket}} value  The value to add to {{name}}.
+     * @returns {{#bracket}}{{#if isTypedArray}}{{singleType}}[]{{else}}{{type}}{{/if}}{{/bracket}}
+     */
+    {{ClassName}}.prototype.{{method}} = function(value) {
+        if (! value instanceof {{#if isTypedArray}}{{ucWords singleType}}{{else}}{{ucWords returnType}}{{/if}}) {
+            throw new TypeError('{{ClassName}}.{{method}}() requires a {{#if isTypedArray}}{{ucWords singleType}}{{else}}{{ucWords returnType}}{{/if}}.');
+        }
+        if (this.{{name}} instanceof Array && this.{{name}}.indexOf(value) === -1) {
+            this.{{name}}.push(value);
+        }
+        return this.{{name}};
+    }
+    {{/each}}
+    // removers
+    {{#each removers}}
+
+    /**
+     * Removes a {{name}}
+     * @param {{#bracket}}{{type}}{{/bracket}} value  The item to remove from {{name}}.
+     * @returns {{#bracket}}{{#if isTypedArray}}{{singleType}}[]{{else}}{{type}}{{/if}}{{/bracket}}
+     */
+    {{ClassName}}.prototype.{{method}} = function(value) {
+        if (this.{{name}} instanceof Array && this.{{name}}.indexOf(value) >= 0) {
+            var filtered = [];
+            this.{{name}}.map(function(item) {
+                if (item === value) return;
+                tmp.push(item);
+            });
+            this.{{name}} = filtered;
+        }
+        return this.{{name}};
+    }
+    {{/each}}
+    // Has-sers
+    {{#each hassers}}
+
+    /**
+     * Checks to see if `value` exists in {{name}}
+     * @param {{#bracket}}{{type}}{{/bracket}} value  The value to check {{name}} for.
+     * @returns {boolean}
+     */
+    {{ClassName}}.prototype.{{method}} = function(value) {
+        return ( this.{{name}} instanceof Array && this.{{name}}.indexOf(value) >= 0 );
     }
     {{/each}}
 
@@ -71,6 +121,7 @@
      * @param {object}  subject     The object to search.
      * @param {string}  key         The name of the property to get.
      * @param {*}       fallback    The default value to return if key is not found.
+     * @returns {{#bracket}}{{returnType}}{{/bracket}}
      */
     {{ClassName}}.prototype._get = function(subject, key, fallback) {
         if (typeof subject[key] !== 'undefined') {
@@ -96,7 +147,7 @@
 
     /**
      * Get the {{#bracket}}{{ClassName}}{{/bracket}} as on object of key => value pairs.
-     * @returns {{#bracket}}{{ClassName}}[]{{/bracket}}
+     * @returns {object}
      */
     {{ClassName}}.prototype.valueOf = function() {
         return {
