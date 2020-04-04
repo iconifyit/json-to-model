@@ -76,7 +76,7 @@ class JsonToModel {
 
             let value;
 
-            console.log('(1) key', key)
+            // console.log('(1) key', key)
 
             if (kDIRECTIVES.has(key)) continue;
 
@@ -85,7 +85,7 @@ class JsonToModel {
             const {propName, valueType, returnType, singleType}  = this.getValueType(key, value);
             const {defaultValue} = this.getDefaultValue(key);
 
-            console.log('(2) returnType', returnType)
+            // console.log('(2) returnType', returnType)
 
             const isTypedArray = key.indexOf('[]') >= 0 ? true : false;
 
@@ -199,11 +199,11 @@ class JsonToModel {
             returnType = 'object';
         }
 
-        console.log('(3) defaultValue, returnValue', {
-            valueType    : valueType,
-            defaultValue : defaultValue,
-            returnType   : returnType
-        })
+        // console.log('(3) defaultValue, returnValue', {
+        //     valueType    : valueType,
+        //     defaultValue : defaultValue,
+        //     returnType   : returnType
+        // })
 
         return {
             defaultValue : defaultValue,
@@ -221,7 +221,7 @@ class JsonToModel {
      */
     getValueType(key, value) {
 
-        console.log( '(4) key', key )
+        // console.log( '(4) key', key )
         
         let propName   = key,
             valueType  = typeof value,
@@ -255,12 +255,12 @@ class JsonToModel {
             }
         }
         
-        console.log('(5)  getValueType **', {
-            propName   : propName,
-            valueType  : valueType,
-            singleType    : singleType,
-            returnType : returnType
-        });
+        // console.log('(5)  getValueType **', {
+        //     propName   : propName,
+        //     valueType  : valueType,
+        //     singleType    : singleType,
+        //     returnType : returnType
+        // });
 
         return {
             propName   : propName,

@@ -36,9 +36,17 @@
          */
         this.client = this._get(data, 'client', []);
         /**
-         * {object[]}
+         * {string[]}
          */
         this.host = this._get(data, 'host', []);
+        /**
+         * {string[]}
+         */
+        this.styles = this._get(data, 'styles', []);
+        /**
+         * {string}
+         */
+        this.path = this._get(data, 'path', null);
         /**
          * {boolean}
          */
@@ -65,10 +73,26 @@
 
     /**
      * Gets the value of host
-     * @returns {object[]}
+     * @returns {string[]}
      */
     Plugin.prototype.getHost = function() {
         return this.host;
+    }
+
+    /**
+     * Gets the value of styles
+     * @returns {string[]}
+     */
+    Plugin.prototype.getStyles = function() {
+        return this.styles;
+    }
+
+    /**
+     * Gets the value of path
+     * @returns {string}
+     */
+    Plugin.prototype.getPath = function() {
+        return this.path;
     }
 
     /**
@@ -110,7 +134,7 @@
     /**
      * Sets the value of host
      * @param {array} value  The value to set host to.
-     * @returns {object[]}
+     * @returns {string[]}
      */
     Plugin.prototype.setHost = function(value) {
         if (! value instanceof Array) {
@@ -118,6 +142,32 @@
         }
         this.host = value;
         return this.host;
+    }
+
+    /**
+     * Sets the value of styles
+     * @param {array} value  The value to set styles to.
+     * @returns {string[]}
+     */
+    Plugin.prototype.setStyles = function(value) {
+        if (! value instanceof Array) {
+            throw new TypeError('Plugin.setStyles() requires a Array.');
+        }
+        this.styles = value;
+        return this.styles;
+    }
+
+    /**
+     * Sets the value of path
+     * @param {string} value  The value to set path to.
+     * @returns {string}
+     */
+    Plugin.prototype.setPath = function(value) {
+        if (! value instanceof String) {
+            throw new TypeError('Plugin.setPath() requires a String.');
+        }
+        this.path = value;
+        return this.path;
     }
 
     /**
@@ -151,16 +201,30 @@
     /**
      * Adds a host
      * @param {array} value  The value to add to host.
-     * @returns {object[]}
+     * @returns {string[]}
      */
     Plugin.prototype.addHost = function(value) {
-        if (! value instanceof Object) {
-            throw new TypeError('Plugin.addHost() requires a Object.');
+        if (! value instanceof String) {
+            throw new TypeError('Plugin.addHost() requires a String.');
         }
         if (this.host instanceof Array && this.host.indexOf(value) === -1) {
             this.host.push(value);
         }
         return this.host;
+    }
+    /**
+     * Adds a styles
+     * @param {array} value  The value to add to styles.
+     * @returns {string[]}
+     */
+    Plugin.prototype.addStyle = function(value) {
+        if (! value instanceof String) {
+            throw new TypeError('Plugin.addStyle() requires a String.');
+        }
+        if (this.styles instanceof Array && this.styles.indexOf(value) === -1) {
+            this.styles.push(value);
+        }
+        return this.styles;
     }
     // removers
 
@@ -184,7 +248,7 @@
     /**
      * Removes a host
      * @param {array} value  The item to remove from host.
-     * @returns {object[]}
+     * @returns {string[]}
      */
     Plugin.prototype.removeHost = function(value) {
         if (this.host instanceof Array && this.host.indexOf(value) >= 0) {
@@ -196,6 +260,23 @@
             this.host = filtered;
         }
         return this.host;
+    }
+
+    /**
+     * Removes a styles
+     * @param {array} value  The item to remove from styles.
+     * @returns {string[]}
+     */
+    Plugin.prototype.removeStyle = function(value) {
+        if (this.styles instanceof Array && this.styles.indexOf(value) >= 0) {
+            var filtered = [];
+            this.styles.map(function(item) {
+                if (item === value) return;
+                tmp.push(item);
+            });
+            this.styles = filtered;
+        }
+        return this.styles;
     }
     // Has-sers
 
@@ -215,6 +296,15 @@
      */
     Plugin.prototype.hasHost = function(value) {
         return ( this.host instanceof Array && this.host.indexOf(value) >= 0 );
+    }
+
+    /**
+     * Checks to see if `value` exists in styles
+     * @param {array} value  The value to check styles for.
+     * @returns {boolean}
+     */
+    Plugin.prototype.hasStyle = function(value) {
+        return ( this.styles instanceof Array && this.styles.indexOf(value) >= 0 );
     }
 
     // Utility functions
@@ -257,6 +347,8 @@
             name : this.getName(),
             client : this.getClient(),
             host : this.getHost(),
+            styles : this.getStyles(),
+            path : this.getPath(),
             disabled : this.getDisabled(),
         }
     }

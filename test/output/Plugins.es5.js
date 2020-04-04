@@ -48,7 +48,7 @@
         /**
          * {boolean}
          */
-        this.disabled = this._get(data, 'disabled', null);
+        this.disabled = this._get(data, 'disabled', false);
     }
 
     // Getters

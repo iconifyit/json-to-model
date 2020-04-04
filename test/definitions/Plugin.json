@@ -1,11 +1,13 @@
 {
   "name::string"       :  "Plugin Name",
   "client::string[]"   : [],
-  "host::object[]"     : [],
+  "host::string[]"     : [],
+  "styles::string[]"   : [],
+  "path::string"       : "",
   "disabled::boolean"  : false,
 
-  "__className"  : "Plugin",
-  "__type"       : "item",
-  "__primaryKey" : "name",
-  "__parent"     : "plugins"
+  "__className"        : "Plugin",
+  "__type"             : "item",
+  "__primaryKey"       : "name",
+  "__parent"           : "plugins"
 }
