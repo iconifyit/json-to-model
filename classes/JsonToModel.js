@@ -51,6 +51,8 @@ class JsonToModel {
 
         this.addHandlebarsPlugins();
 
+        this.keyMap = {};
+
         const template = this.handlebars.compile( fs.readFileSync(tpl, kUTF8) );
 
         const view = {
@@ -63,7 +65,7 @@ class JsonToModel {
             hassers     : [],
             primaryKey  : data[kPRIMARY_KEY],
             parentKey   : data[kPARENT_KEY],
-            childrenKey : data[kCHILDREN_KEY]
+            childrenKey : data[kCHILDREN_KEY],
         };
 
         if (typeof vars !== 'undefined') {
@@ -73,10 +75,7 @@ class JsonToModel {
         }
 
         for (var key in data) {
-
             let value;
-
-            // console.log('(1) key', key)
 
             if (kDIRECTIVES.has(key)) continue;
 
@@ -87,7 +86,9 @@ class JsonToModel {
 
             let safePropName = this.safeName(propName);
 
-            // console.log('(2) returnType', returnType)
+            // When we output to JSON or CSV, we want to use the 
+            // original key names from the data object.
+            this.keyMap[safePropName] = propName;
 
             const isTypedArray = key.indexOf('[]') >= 0 ? true : false;
 
@@ -164,6 +165,8 @@ class JsonToModel {
             }
         }
 
+        view.keyMap = JSON.stringify(this.keyMap);
+
         return {
             toString : function() {
                 return template(view)
@@ -218,12 +221,6 @@ class JsonToModel {
             defaultValue = '{}';
             returnType = 'object';
         }
-
-        // console.log('(3) defaultValue, returnValue', {
-        //     valueType    : valueType,
-        //     defaultValue : defaultValue,
-        //     returnType   : returnType
-        // })
 
         return {
             defaultValue : defaultValue,

@@ -22,6 +22,8 @@
 
             this.instance = '{{ClassName}}@' + uniqueId;
 
+            this.__keyMap = {{{keyMap}}};
+
             /**
              * {string}
              */
@@ -157,8 +159,18 @@
          * Get the {{#bracket}}{{ClassName}}{{/bracket}} as a JSON object.
          * @returns {string}
          */
-        toJSON() {
-            return JSON.stringify(this.valueOf());
+        toJSON(preserveOriginalKeys) {
+            if (! preserveOriginalKeys) {
+                return JSON.stringify(this.valueOf());
+            }
+            let value = this.valueOf();
+            let json = {};
+            for (let key in value) {
+                if (typeof this.__keyMap[key] !== 'undefined') {
+                    json[this.__keyMap[key]] = value[key];
+                }
+            }
+            return json;
         }
     }
 

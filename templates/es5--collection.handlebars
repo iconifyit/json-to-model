@@ -20,6 +20,8 @@
 
         this.{{ClassName}} = '{{ClassName}}@' + uniqueId;
 
+        this.__keyMap = {{{keyMap}}};
+
         if (! data) data = {};
 
         /**
@@ -297,10 +299,34 @@
 
     /**
      * Get the {{#bracket}}{{ClassName}}{{/bracket}} as a JSON object.
+     * @param {boolean} preserveOriginalKeys If true, the original keys from the JSON object template will be used.
      * @returns {string}
      */
-    {{ClassName}}.prototype.toJSON = function() {
-        return JSON.stringify(this.valueOf());
+    {{ClassName}}.prototype.toJSON = function(preserveOriginalKeys) {
+        if (! preserveOriginalKeys) {
+            return JSON.stringify(this.valueOf());
+        }
+        let value = this.valueOf();
+        let json = {};
+        for (let key in value) {
+            if (typeof this.__keyMap[key] !== 'undefined') {
+                json[this.__keyMap[key]] = value[key];
+            }
+        }
+        return json;
+    }
+
+    /**
+     * Get the data objects as a CSV file.
+     * @param {boolean} preserveOriginalKeys If true, the original keys from the JSON object template will be used.
+     * @returns {string}
+     */
+    {{ClassName}}.prototype.toCSV = function(preserveOriginalKeys) {
+        const json = this.toJSON(preserveOriginalKeys);
+        let csv = Object.keys(json).join(',');
+        for (let key in json) {
+            csv += json[key] + ',';
+        }
     }
 
     /*
