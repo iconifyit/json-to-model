@@ -45,6 +45,10 @@
          */
         this.{{name}} = this._get(data, '{{jsonKey}}', {{#if primary}}uniqueId{{else}}{{defaultValue}}{{/if}});
     {{/each}}
+    
+    {{#each getters}}
+        this.{{getter}} = this.{{getter}}.bind(this);
+    {{/each}}
     }
 
     // Getters
@@ -68,7 +72,7 @@
      * @returns {{#bracket}}{{#if isTypedArray}}{{singleType}}[]{{else}}{{type}}{{/if}}{{/bracket}}
      */
     {{ClassName}}.prototype.{{setter}} = function(value) {
-        if (! (value instanceof {{ucSingularize returnType}})) {
+        if (! value instanceof {{ucSingularize returnType}}) {
             throw new TypeError('{{ClassName}}.{{setter}}() requires a {{ucSingularize returnType}}.');
         }
         this.{{name}} = value;
@@ -85,7 +89,7 @@
      * @returns {{#bracket}}{{#if isTypedArray}}{{singleType}}[]{{else}}{{type}}{{/if}}{{/bracket}}
      */
     {{ClassName}}.prototype.{{method}} = function(value) {
-        if (! (value instanceof {{#if isTypedArray}}{{ucWords singleType}}{{else}}{{ucWords returnType}}{{/if}})) {
+        if (! value instanceof {{#if isTypedArray}}{{ucWords singleType}}{{else}}{{ucWords returnType}}{{/if}}) {
             throw new TypeError('{{ClassName}}.{{method}}() requires a {{#if isTypedArray}}{{ucWords singleType}}{{else}}{{ucWords returnType}}{{/if}}.');
         }
         if (this.{{name}} instanceof Array && this.{{name}}.indexOf(value) === -1) {
@@ -166,7 +170,7 @@
      * @returns {{#bracket}}{{ucSingularize childrenKey}}{{/bracket}}
      */
     {{ClassName}}.prototype.item = function(key, value) {
-        for (let i = 0; i < this.length(); i++) {
+        for (var i = 0; i < this.length(); i++) {
             if (this.{{childrenKey}}[i][key] === value) {
                 return this.{{childrenKey}}[i];
             }
@@ -306,9 +310,10 @@
         if (! preserveOriginalKeys) {
             return JSON.stringify(this.valueOf());
         }
-        let value = this.valueOf();
-        let json = {};
-        for (let key in value) {
+        var value = this.valueOf();
+        console.log(value);
+        var json = {};
+        for (var key in value) {
             if (typeof this.__keyMap[key] !== 'undefined') {
                 json[this.__keyMap[key]] = value[key];
             }
@@ -322,11 +327,13 @@
      * @returns {string}
      */
     {{ClassName}}.prototype.toCSV = function(preserveOriginalKeys) {
-        const json = this.toJSON(preserveOriginalKeys);
-        let csv = Object.keys(json).join(',');
-        for (let key in json) {
-            csv += json[key] + ',';
-        }
+        var items = this.getAll();
+        if (items.length === 0) return '';
+        var csv = (preserveOriginalKeys ? Object.keys(items[0].__keyMap) : Object.values(items[0].__keyMap)).join(',');
+        items.forEach(function(item) {
+            csv += '\n' + (Object.values(JSON.parse(item.toJSON())).join(','))
+        })
+        return csv
     }
 
     /*

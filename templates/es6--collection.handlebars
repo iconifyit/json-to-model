@@ -44,6 +44,10 @@
              */
             this.{{name}} = this._get(data, '{{jsonKey}}', {{#if primary}}uniqueId{{else}}{{defaultValue}}{{/if}});
         {{/each}}
+        
+        {{#each getters}}
+            this.{{getter}} = this.{{getter}}.bind(this);
+        {{/each}}
         }
 
         // Gettters
@@ -67,7 +71,7 @@
          * @returns {{#bracket}}{{#if isTypedArray}}{{singleType}}[]{{else}}{{type}}{{/if}}{{/bracket}}
          */
         {{setter}}(value) {
-            if (! (value instanceof {{ucSingularize returnType}})) {
+            if (! value instanceof {{ucSingularize returnType}}) {
                 throw new TypeError('{{ClassName}}.{{setter}}() requires a {{ucSingularize returnType}}.');
             }
             this.{{name}} = value;
@@ -84,7 +88,7 @@
          * @returns {{#bracket}}{{#if isTypedArray}}{{singleType}}[]{{else}}{{type}}{{/if}}{{/bracket}}
          */
         {{method}}(value) {
-            if (! (value instanceof {{#if isTypedArray}}{{ucWords singleType}}{{else}}{{ucWords returnType}}{{/if}})) {
+            if (! value instanceof {{#if isTypedArray}}{{ucWords singleType}}{{else}}{{ucWords returnType}}{{/if}}) {
                 throw new TypeError('{{ClassName}}.{{method}}() requires a {{#if isTypedArray}}{{ucWords singleType}}{{else}}{{ucWords returnType}}{{/if}}.');
             }
             if (this.{{name}} instanceof Array && this.{{name}}.indexOf(value) === -1) {
@@ -322,11 +326,12 @@
          * @returns {string}
          */
         toCSV(preserveOriginalKeys) {
-            const json = this.toJSON(preserveOriginalKeys);
-            let csv = Object.keys(json).join(',');
-            for (let key in json) {
-                csv += json[key] + ',';
-            }
+            const items = this.getAll();
+            let csv = (preserveOriginalKeys ? Object.keys(this.__keyMap) : Object.values(this.__keyMap)).join(',');
+            items.forEach(function(item) {
+                csv += '\n' + (Object.values(JSON.parse(item.toJSON())).join(','))
+            })
+            return csv
         }
     }
 

@@ -36,6 +36,10 @@
             this.{{name}} = this._get(data, '{{jsonKey}}', {{#if primary}}uniqueId{{else}}{{defaultValue}}{{/if}});
 
         {{/each}}
+        
+        {{#each getters}}
+            this.{{getter}} = this.{{getter}}.bind(this);
+        {{/each}}
         }
 
         {{#each getters}}
@@ -56,7 +60,7 @@
          * @returns {{#bracket}}{{#if isTypedArray}}{{singleType}}[]{{else}}{{type}}{{/if}}{{/bracket}}
          */
         {{setter}}(value) {
-            if (! (value instanceof {{ucWords returnType}})) {
+            if (! value instanceof {{ucWords returnType}}) {
                 throw new TypeError('{{ClassName}}.{{setter}}() requires a {{ucWords returnType}}.');
             }
             this.{{name}} = value;
@@ -73,7 +77,7 @@
          * @returns {{#bracket}}{{#if isTypedArray}}{{singleType}}[]{{else}}{{type}}{{/if}}{{/bracket}}
          */
         {{method}}(value) {
-            if (! (value instanceof {{#if isTypedArray}}{{ucWords singleType}}{{else}}{{ucWords returnType}}{{/if}})) {
+            if (! value instanceof {{#if isTypedArray}}{{ucWords singleType}}{{else}}{{ucWords returnType}}{{/if}}) {
                 throw new TypeError('{{ClassName}}.{{method}}() requires a {{#if isTypedArray}}{{ucWords singleType}}{{else}}{{ucWords returnType}}{{/if}}.');
             }
             if (this.{{name}} instanceof Array && this.{{name}}.indexOf(value) === -1) {
