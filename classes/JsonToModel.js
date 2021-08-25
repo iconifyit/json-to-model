@@ -85,24 +85,26 @@ class JsonToModel {
             const {propName, valueType, returnType, singleType}  = this.getValueType(key, value);
             const {defaultValue} = this.getDefaultValue(key);
 
+            let safePropName = this.safeName(propName);
+
             // console.log('(2) returnType', returnType)
 
             const isTypedArray = key.indexOf('[]') >= 0 ? true : false;
 
             view.properties.push({
-                name         : propName,
+                name         : safePropName,
                 type         : valueType,
-                primary      : propName === data[kPRIMARY_KEY] ? true : false,
+                primary      : safePropName === this.safeName(data[kPRIMARY_KEY]) ? true : false,
                 returnType   : returnType,
                 singleType   : singleType,
                 defaultValue : defaultValue,
-                isTypedArray : isTypedArray
+                isTypedArray : isTypedArray,
             });
 
             view.setters.push({
                 ClassName  : className,
-                name       : propName,
-                setter     : 'set' + ucWords(propName),
+                name       : safePropName,
+                setter     : 'set' + ucWords(safePropName),
                 type       : valueType,
                 singleType : singleType,
                 returnType : returnType,
@@ -111,8 +113,8 @@ class JsonToModel {
 
             view.getters.push({
                 ClassName  : className,
-                name       : propName,
-                getter     : 'get' + ucWords(propName),
+                name       : safePropName,
+                getter     : 'get' + ucWords(safePropName),
                 type       : valueType,
                 singleType : singleType,
                 returnType : returnType,
@@ -121,12 +123,12 @@ class JsonToModel {
 
             if (defaultValue === '[]') {
 
-                var singlePropName   = Inflector.singularize(propName),
+                var singlePropName   = Inflector.singularize(safePropName),
                     ucSinglePropName = ucWords(singlePropName);
 
                 view.adders.push({
                     ClassName  : className,
-                    name       : propName,
+                    name       : safePropName,
                     method     : 'add' + ucSinglePropName,
                     type       : valueType,
                     singleType : singleType,
@@ -136,7 +138,7 @@ class JsonToModel {
 
                 view.removers.push({
                     ClassName  : className,
-                    name       : propName,
+                    name       : safePropName,
                     method     : 'remove' + ucSinglePropName,
                     type       : valueType,
                     singleType : singleType,
@@ -146,7 +148,7 @@ class JsonToModel {
 
                 view.hassers.push({
                     ClassName  : className,
-                    name       : propName,
+                    name       : safePropName,
                     method     : 'has' + ucSinglePropName,
                     type       : valueType,
                     singleType : singleType,
@@ -161,6 +163,18 @@ class JsonToModel {
                 return template(view)
             }
         }
+    }
+
+    safeName(str) {
+        return this.removeNonAlphaNum(ucWords(str));
+    }
+
+    removeNonAlphaNum(str) {
+        return str.replace(/[^a-zA-Z0-9]/g, '');
+    }
+
+    isAlphaNum(str) {
+        return /^[a-zA-Z0-9]+$/.test(str);
     }
 
     /**
@@ -223,7 +237,7 @@ class JsonToModel {
 
         // console.log( '(4) key', key )
         
-        let propName   = key,
+        let propName   = this.safeName(key),
             valueType  = typeof value,
             singleType    = null,
             returnType = typeof value
@@ -244,7 +258,7 @@ class JsonToModel {
 
             let bits = key.split('::');
             
-            propName   = bits[0];
+            propName   = this.safeName(bits[0]);
             valueType  = bits[1];
             returnType = bits[1];
 
@@ -263,7 +277,7 @@ class JsonToModel {
         // });
 
         return {
-            propName   : propName,
+            propName   : this.safeName(propName),
             valueType  : valueType,
             singleType    : singleType,
             returnType : returnType
