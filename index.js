@@ -82,7 +82,7 @@ class JsonToJsModel {
         //     rootDir = '../';
         // }
 
-        console.log('rootDir', rootDir);
+        // console.log('rootDir', rootDir);
 
         const es5__model = new JsonToModel(
             meta.__className,
