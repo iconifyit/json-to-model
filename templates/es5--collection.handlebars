@@ -41,7 +41,7 @@
         /**
          * {{#bracket}}{{#if isTypedArray}}{{singleType}}[]{{else}}{{type}}{{/if}}{{/bracket}}
          */
-        this.{{name}} = this._get(data, '{{name}}', {{#if primary}}uniqueId{{else}}{{defaultValue}}{{/if}});
+        this.{{name}} = this._get(data, '{{jsonKey}}', {{#if primary}}uniqueId{{else}}{{defaultValue}}{{/if}});
     {{/each}}
     }
 

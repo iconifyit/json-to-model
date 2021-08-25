@@ -1,6 +1,6 @@
 {
   "name": "@atomiclotus/json-to-js-model",
-  "version": "1.0.5-alpha.06",
+  "version": "1.0.5-alpha.07",
   "description": "Converts a JSON object to JavaScript object (POJSO) with getters & setters",
   "main": "index.js",
   "scripts": {

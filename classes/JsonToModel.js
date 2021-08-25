@@ -93,6 +93,7 @@ class JsonToModel {
 
             view.properties.push({
                 name         : safePropName,
+                jsonKey      : propName,
                 type         : valueType,
                 primary      : safePropName === this.safeName(data[kPRIMARY_KEY]) ? true : false,
                 returnType   : returnType,
@@ -104,6 +105,7 @@ class JsonToModel {
             view.setters.push({
                 ClassName  : className,
                 name       : safePropName,
+                jsonKey    : propName,
                 setter     : 'set' + ucWords(safePropName),
                 type       : valueType,
                 singleType : singleType,
@@ -114,6 +116,7 @@ class JsonToModel {
             view.getters.push({
                 ClassName  : className,
                 name       : safePropName,
+                jsonKey    : propName,
                 getter     : 'get' + ucWords(safePropName),
                 type       : valueType,
                 singleType : singleType,
@@ -129,6 +132,7 @@ class JsonToModel {
                 view.adders.push({
                     ClassName  : className,
                     name       : safePropName,
+                    jsonKey    : propName,
                     method     : 'add' + ucSinglePropName,
                     type       : valueType,
                     singleType : singleType,
@@ -139,6 +143,7 @@ class JsonToModel {
                 view.removers.push({
                     ClassName  : className,
                     name       : safePropName,
+                    jsonKey    : propName,
                     method     : 'remove' + ucSinglePropName,
                     type       : valueType,
                     singleType : singleType,
@@ -149,6 +154,7 @@ class JsonToModel {
                 view.hassers.push({
                     ClassName  : className,
                     name       : safePropName,
+                    jsonKey    : propName,
                     method     : 'has' + ucSinglePropName,
                     type       : valueType,
                     singleType : singleType,
