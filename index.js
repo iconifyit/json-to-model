@@ -76,11 +76,11 @@ class JsonToJsModel {
          * Create the model object.
          */
 
-        let rootDir = './';
+        // let rootDir = './';
 
-        if (! fs.existsSync('./templates/') && fs.existsSync('../templates/')) {
-            rootDir = '../';
-        }
+        // if (! fs.existsSync('./templates/') && fs.existsSync('../templates/')) {
+        //     rootDir = '../';
+        // }
 
         console.log('rootDir', rootDir);
 
@@ -88,7 +88,7 @@ class JsonToJsModel {
             meta.__className,
             meta,
             path.join(
-                rootDir,
+                __dirname,
                 'templates',
                 meta.__type === kTYPE_ITEM ?
                     'es5--item.handlebars' :
@@ -100,7 +100,7 @@ class JsonToJsModel {
             meta.__className,
             meta,
             path.join(
-                rootDir,
+                __dirname,
                 'templates',
                 meta.__type === kTYPE_ITEM ?
                     'es6--item.handlebars' :
