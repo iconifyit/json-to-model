@@ -243,7 +243,7 @@ class JsonToModel {
 
         // console.log( '(4) key', key )
         
-        let propName   = this.safeName(key),
+        let propName   = key,
             valueType  = typeof value,
             singleType    = null,
             returnType = typeof value
@@ -264,7 +264,7 @@ class JsonToModel {
 
             let bits = key.split('::');
             
-            propName   = this.safeName(bits[0]);
+            propName   = bits[0];
             valueType  = bits[1];
             returnType = bits[1];
 
@@ -283,7 +283,7 @@ class JsonToModel {
         // });
 
         return {
-            propName   : this.safeName(propName),
+            propName   : propName,
             valueType  : valueType,
             singleType    : singleType,
             returnType : returnType
