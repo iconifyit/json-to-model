@@ -68,7 +68,7 @@
      * @returns {{#bracket}}{{#if isTypedArray}}{{singleType}}[]{{else}}{{type}}{{/if}}{{/bracket}}
      */
     {{ClassName}}.prototype.{{setter}} = function(value) {
-        if (! value instanceof {{ucSingularize returnType}}) {
+        if (! (value instanceof {{ucSingularize returnType}})) {
             throw new TypeError('{{ClassName}}.{{setter}}() requires a {{ucSingularize returnType}}.');
         }
         this.{{name}} = value;
@@ -85,7 +85,7 @@
      * @returns {{#bracket}}{{#if isTypedArray}}{{singleType}}[]{{else}}{{type}}{{/if}}{{/bracket}}
      */
     {{ClassName}}.prototype.{{method}} = function(value) {
-        if (! value instanceof {{#if isTypedArray}}{{ucWords singleType}}{{else}}{{ucWords returnType}}{{/if}}) {
+        if (! (value instanceof {{#if isTypedArray}}{{ucWords singleType}}{{else}}{{ucWords returnType}}{{/if}})) {
             throw new TypeError('{{ClassName}}.{{method}}() requires a {{#if isTypedArray}}{{ucWords singleType}}{{else}}{{ucWords returnType}}{{/if}}.');
         }
         if (this.{{name}} instanceof Array && this.{{name}}.indexOf(value) === -1) {
