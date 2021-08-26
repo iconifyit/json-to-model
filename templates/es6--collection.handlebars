@@ -194,7 +194,7 @@
          * @returns {array}
          */
         add(item) {
-            if (this.item('{{primaryKey}}', item.{{primaryKey}})) {
+            if ('{{primaryKey}}'.toLowerCase() !== 'none' && this.item('{{primaryKey}}', item.{{primaryKey}})) {
                 throw new Error('A(n) {{ItemName}} with {{primaryKey}} of ' + item.{{primaryKey}} + ' already exists');
             }
             item.{{parentKey}} = this.{{primaryKey}};
