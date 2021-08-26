@@ -331,17 +331,19 @@
      */
     {{ClassName}}.prototype.toCSV = function(preserveOriginalKeys) {
         var items = this.getAll();
-        if (! items || items.length === 0) return ''
-        let csv = (preserveOriginalKeys ? Object.keys(items[0].__keyMap) : Object.values(items[0].__keyMap)).join(',')
-        items.forEach((item) => {
-            var values = Object.values(JSON.parse(item.toJSON()))
-            values.map(function(value) {
-                if (value instanceof Array) {
-                    return '"' + value.join(',') + '"'
+        var csv = (preserveOriginalKeys ? Object.keys(items[0].__keyMap) : Object.values(items[0].__keyMap)).join(',');
+        items.forEach(function(item) {
+            var json = JSON.parse(item.toJSON())
+            var values = []
+            for (let key in json) {
+                if (json[key] instanceof Array) {
+                    values.push( '"' + json[key].join(',') + '"' );
                 }
-                return value
-            })
-            csv += `\n${values.join(',')}`
+                else {
+                    values.push( json[key] );
+                }
+            }
+            csv += '\n' + values.join(',');
         })
         return csv
     }
