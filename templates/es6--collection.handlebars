@@ -194,9 +194,12 @@
          * @returns {array}
          */
         add(item) {
-            if ('{{primaryKey}}'.toLowerCase() !== 'none' && this.item('{{primaryKey}}', item.{{primaryKey}})) {
-                throw new Error('A(n) {{ItemName}} with {{primaryKey}} of ' + item.{{primaryKey}} + ' already exists');
-            }
+            {{#if ( eq primaryKey 'none' ) }}
+            {{else}}
+                if (this.item('{{primaryKey}}', item.{{primaryKey}})) {
+                    throw new Error('A(n) {{ItemName}} with {{primaryKey}} of ' + item.{{primaryKey}} + ' already exists');
+                }
+            {{/if}}
             item.{{parentKey}} = this.{{primaryKey}};
             this.{{childrenKey}}.push(item);
             return this.{{childrenKey}}

@@ -24,10 +24,14 @@
 
         this.__keyMap = {{{keyMap}}};
 
+    {{#if ( eq primaryKey 'none' ) }}
+    {{else}}
         /**
-         * {string}
-         */
+            * {string}
+            */
         this.primaryKey = '{{primaryKey}}';
+    {{/if}}
+
 
     {{#each properties}}
         /**
