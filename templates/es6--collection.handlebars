@@ -330,9 +330,19 @@
          */
         toCSV(preserveOriginalKeys) {
             const items = this.getAll();
-            let csv = (preserveOriginalKeys ? Object.keys(this.__keyMap) : Object.values(this.__keyMap)).join(',');
-            items.forEach(function(item) {
-                csv += '\n' + (Object.values(JSON.parse(item.toJSON())).join(','))
+            let csv = (preserveOriginalKeys ? Object.keys(items[0].__keyMap) : Object.values(items[0].__keyMap)).join(',');
+            items.forEach((item) => {
+                const json = JSON.parse(item.toJSON())
+                const values = []
+                for (let key in json) {
+                    if (json[key] instanceof Array) {
+                        values.push( '"' + json[key].join(',') + '"' )
+                    }
+                    else {
+                        values.push( json[key] )
+                    }
+                }
+                csv += `\n${values.join(',')}`
             })
             return csv
         }

@@ -78,6 +78,8 @@ You can use your actual JSON data to create the classes or you can code up schem
 
 Specifies the name of the primary key field such as ID, identifier, GUID, etc. This is not the *value* of the field, it is the *name* of the field.
 
+As of version 1.1-alpha.4 you can set the `__primaryKey` property to `none` to indicate that the model should not have a primary key. This is useful for items that are not required to be unique. For example, you might have a collection of icons that are not required to be unique. You must still set the `__primaryKey` property of the collection, so that items can be given a `parent` property to associate the with a collection, but the item itself does not need to be unique. That said, you cannot omit the `__primaryKey` property. It _must_ be set to `none` to disallow the uniqe requirement.
+
 #### __parent
 
 Specifies the name of the parent field. The parent field connects items and sets (collections) via a primary key. The `__parent` should be set on the single item and should point to the `__primaryKey` of the collection.
